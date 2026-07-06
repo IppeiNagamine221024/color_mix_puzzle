@@ -1,0 +1,55 @@
+import { Theme } from '@/constants/Theme';
+import { woodButton } from '@/constants/wood';
+import { bannerAdUnitId } from '@/src/ads/adUnits';
+import { showRewardedAd } from '@/src/ads/showRewardedAd';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { BannerAd, BannerAdSize } from 'react-native-google-mobile-ads';
+
+export function AdMobBannerAd() {
+  return (
+    <View style={styles.banner}>
+      <BannerAd unitId={bannerAdUnitId} size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} />
+    </View>
+  );
+}
+
+type AdMobRewardButtonProps = {
+  onReward: () => void;
+  disabled?: boolean;
+  label?: string;
+};
+
+export function AdMobRewardButton({ onReward, disabled, label }: AdMobRewardButtonProps) {
+  const onPress = async () => {
+    const completed = await showRewardedAd();
+    if (completed) onReward();
+  };
+
+  return (
+    <Pressable
+      style={[styles.rewardBtn, disabled && styles.rewardBtnDisabled]}
+      onPress={onPress}
+      disabled={disabled}
+    >
+      <Text style={styles.rewardText}>{label ?? '▶ 広告でスタミナ回復'}</Text>
+    </Pressable>
+  );
+}
+
+const styles = StyleSheet.create({
+  banner: {
+    alignItems: 'center',
+    borderTopWidth: 1,
+    borderTopColor: Theme.border,
+    backgroundColor: Theme.bgElevated,
+  },
+  rewardBtn: {
+    paddingVertical: 12,
+    paddingHorizontal: 18,
+    alignSelf: 'center',
+    marginVertical: 6,
+    ...woodButton(Theme.accent),
+  },
+  rewardBtnDisabled: { opacity: 0.45 },
+  rewardText: { color: '#fff', fontWeight: '700', fontSize: 13 },
+});

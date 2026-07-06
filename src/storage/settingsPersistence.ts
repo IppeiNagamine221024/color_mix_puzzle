@@ -1,11 +1,11 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { DEFAULT_SETTINGS, type AppSettings } from '@/src/types/settings';
+import { storageGetItem, storageSetItem } from './storageBackend';
 
 const SETTINGS_KEY = 'color_order_settings_v1';
 
 export async function loadSettings(): Promise<AppSettings> {
   try {
-    const raw = await AsyncStorage.getItem(SETTINGS_KEY);
+    const raw = await storageGetItem(SETTINGS_KEY);
     if (!raw) return DEFAULT_SETTINGS;
     const parsed = JSON.parse(raw) as Partial<AppSettings>;
     return {
@@ -18,7 +18,7 @@ export async function loadSettings(): Promise<AppSettings> {
 }
 
 export async function persistSettings(settings: AppSettings): Promise<void> {
-  await AsyncStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+  await storageSetItem(SETTINGS_KEY, JSON.stringify(settings));
 }
 
 function clamp01(value: number): number {

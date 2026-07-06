@@ -65,6 +65,11 @@ export function canWatchRewardedAd(data: SaveData): boolean {
   );
 }
 
+/** 本日あと何回リワード広告で回復できるか */
+export function remainingRewardedAdViews(data: SaveData): number {
+  return Math.max(0, REWARDED_AD_DAILY_LIMIT - data.rewardedAd.dailyCount);
+}
+
 export function applyRewardedAd(data: SaveData, now = Date.now()): SaveData | null {
   const synced = applyStaminaRecovery(data, now);
   if (!canWatchRewardedAd(synced)) return null;

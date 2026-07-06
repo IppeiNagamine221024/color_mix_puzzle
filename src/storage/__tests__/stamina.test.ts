@@ -7,6 +7,8 @@ import {
   consumeStamina,
   msUntilFullRecovery,
   msUntilNextRecovery,
+  remainingRewardedAdViews,
+  REWARDED_AD_DAILY_LIMIT,
 } from '../stamina';
 
 describe('applyStaminaRecovery', () => {
@@ -63,6 +65,25 @@ describe('msUntilFullRecovery', () => {
     };
     const now = STAMINA_RECOVERY_MS / 2;
     expect(msUntilFullRecovery(base, now)).toBe(STAMINA_RECOVERY_MS / 2);
+  });
+});
+
+describe('remainingRewardedAdViews', () => {
+  it('starts at daily limit', () => {
+    expect(remainingRewardedAdViews(DEFAULT_SAVE)).toBe(REWARDED_AD_DAILY_LIMIT);
+  });
+
+  it('decreases after each rewarded ad', () => {
+    const anchor = 1_000_000;
+    const afterOne = applyRewardedAd(
+      {
+        ...DEFAULT_SAVE,
+        stamina: { current: 1, lastRecoveryAt: anchor },
+      },
+      anchor,
+    );
+    expect(afterOne).not.toBeNull();
+    expect(remainingRewardedAdViews(afterOne!)).toBe(REWARDED_AD_DAILY_LIMIT - 1);
   });
 });
 

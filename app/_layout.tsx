@@ -1,5 +1,7 @@
 import { Theme } from '@/constants/Theme';
 import { audio } from '@/src/audio/audioService';
+import { initAds } from '@/src/ads';
+import { IapProvider } from '@/src/iap';
 import { initStaminaNotifications } from '@/src/notifications/staminaNotification';
 import { useSettingsStore } from '@/src/stores/settingsStore';
 import { Stack } from 'expo-router';
@@ -17,11 +19,13 @@ export default function RootLayout() {
   useEffect(() => {
     SplashScreen.hideAsync();
     void audio.init();
+    void initAds();
     void initStaminaNotifications();
     void useSettingsStore.getState().hydrate();
   }, []);
 
   return (
+  <IapProvider>
     <>
       <StatusBar style="dark" />
       <View style={styles.root}>
@@ -43,6 +47,7 @@ export default function RootLayout() {
         </Stack>
       </View>
     </>
+  </IapProvider>
   );
 }
 

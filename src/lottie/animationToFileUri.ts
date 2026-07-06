@@ -13,13 +13,5 @@ export function animationToFileUri(animation: object, fileName: string): string 
   }
   file.create({ overwrite: true });
   file.write(json);
-  if (__DEV__) {
-    try {
-      const parsed = JSON.parse(file.textSync()) as { nm?: string };
-      console.log(`[Lottie] wrote ${fileName} nm=${parsed.nm ?? '?'}`);
-    } catch {
-      console.warn(`[Lottie] wrote ${fileName} (verify failed)`);
-    }
-  }
   return file.uri;
 }

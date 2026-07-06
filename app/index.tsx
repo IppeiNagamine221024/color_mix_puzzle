@@ -1,14 +1,13 @@
-import { DevClearStagesButtons } from '@/components/dev/DevClearStagesButtons';
-import { DevStaminaButton } from '@/components/dev/DevStaminaButton';
 import { EnterLottieOverlay } from '@/components/lottie';
 import { STAMINA_CONSUME_MS, StaminaBar } from '@/components/StaminaBar';
 import { Theme } from '@/constants/Theme';
 import { woodButton, woodPanel, woodText, woodTile, woodTitle } from '@/constants/wood';
-import { MockBannerAd, MockRewardButton } from '@/src/ads/mockAds';
+import { BannerAdSlot, RewardAdButton } from '@/src/ads';
+import { UnlimitedPlayPassCard, isUnlimitedPlayActive } from '@/src/iap';
 import { playSe } from '@/src/audio/playSe';
 import { useBgm } from '@/src/audio/useBgm';
 import { getAllStages, isTutorialStage } from '@/src/game/stages';
-import { REWARDED_AD_DAILY_LIMIT } from '@/src/storage/stamina';
+import { REWARDED_AD_DAILY_LIMIT, remainingRewardedAdViews } from '@/src/storage/stamina';
 import {
   canShowRewardButton,
   canStartNewStage,
@@ -33,7 +32,7 @@ const STAGE_CELL = Math.floor((Dimensions.get('window').width - 24) / COLS) - 2;
 
 export default function MainScreen() {
   const router = useRouter();
-  const { ready, save, recoveryMs, hydrate, watchRewardedAd, tickRecovery, startStage } =
+  const { ready, save, recoveryMs, unlimitedPlayMs, hydrate, watchRewardedAd, tickRecovery, startStage } =
     useAppStore();
   const [enterVisible, setEnterVisible] = useState(false);
   const [enteringStageId, setEnteringStageId] = useState<number | null>(null);
@@ -79,8 +78,15 @@ export default function MainScreen() {
       playSe('start');
       enteringRef.current = true;
 
-      if (isTutorialStage(stageId)) {
-        showEnterLottie(stageId, `/game/${stageId}`);
+      if (isTutorialStage(stageId) || isUnlimitedPlayActive(save)) {
+        const ok = isUnlimitedPlayActive(save)
+          ? await startStage(stageId, null, true)
+          : true;
+        if (ok) {
+          showEnterLottie(stageId, `/game/${stageId}${isUnlimitedPlayActive(save) ? '?started=1' : ''}`);
+        } else {
+          enteringRef.current = false;
+        }
         return;
       }
 
@@ -121,6 +127,7 @@ export default function MainScreen() {
 
   const stages = getAllStages();
   const rewardOk = canShowRewardButton(save);
+  const unlimitedActive = isUnlimitedPlayActive(save);
   const isEntering = enteringStageId != null || enterVisible;
 
   return (
@@ -156,15 +163,16 @@ export default function MainScreen() {
         current={save.stamina.current}
         recoveryMs={recoveryMs}
         consumingIndex={consumingHeartIndex}
+        unlimitedPlayActive={unlimitedActive}
+        unlimitedPlayMs={unlimitedPlayMs}
       />
 
-      <DevStaminaButton disabled={isEntering} />
-      <DevClearStagesButtons disabled={isEntering} />
+      <UnlimitedPlayPassCard active={unlimitedActive} disabled={isEntering} />
 
       {rewardOk ? (
-        <MockRewardButton
+        <RewardAdButton
           onReward={() => watchRewardedAd()}
-          label={`▶ 広告でスタミナ回復 (今日 残り回数${save.rewardedAd.dailyCount})`}
+          label={`▶ 広告でスタミナ回復 (今日 残り${remainingRewardedAdViews(save)}回)`}
           disabled={isEntering}
         />
       ) : save.rewardedAd.dailyCount >= REWARDED_AD_DAILY_LIMIT ? (
@@ -237,7 +245,7 @@ export default function MainScreen() {
         })}
       </ScrollView>
 
-      <MockBannerAd />
+      <BannerAdSlot />
       </SafeAreaView>
 
       <EnterLottieOverlay visible={enterVisible} onDismiss={onEnterDismiss} />

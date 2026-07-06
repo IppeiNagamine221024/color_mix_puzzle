@@ -6,7 +6,6 @@ import { ContinueHint } from '@/components/lottie/ContinueHint';
 import { Theme } from '@/constants/Theme';
 import { woodText } from '@/constants/wood';
 import {
-  getLottieCompositionName,
   getLottieDurationMs,
   getLottieSource,
   LOTTIE_CONFIG,
@@ -71,13 +70,6 @@ export function AppLottiePlayer() {
     finishedRef.current = false;
     animationDoneRef.current = false;
     setAnimationDone(false);
-
-    if (__DEV__) {
-      const src = getLottieSource(request.kind);
-      console.log(
-        `[Lottie] player ${request.kind} instance=${instanceId} nm=${getLottieCompositionName(src)}`,
-      );
-    }
 
     const durationMs = getLottieDurationMs(request.kind);
     const id = setTimeout(() => {
@@ -147,12 +139,6 @@ export function AppLottiePlayer() {
         />
       )}
 
-      {__DEV__ && !isEnter && (
-        <Text style={styles.debugLabel} pointerEvents="none">
-          clear / {getLottieCompositionName(getLottieSource('clear'))} / #{instanceId}
-        </Text>
-      )}
-
       <Pressable
         style={StyleSheet.absoluteFill}
         onPress={onPress}
@@ -195,18 +181,5 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: Theme.textDim,
     opacity: 0.85,
-  },
-  debugLabel: {
-    position: 'absolute',
-    top: 48,
-    alignSelf: 'center',
-    zIndex: 3,
-    ...woodText,
-    fontSize: 10,
-    color: Theme.danger,
-    backgroundColor: 'rgba(255,255,255,0.9)',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 4,
   },
 });

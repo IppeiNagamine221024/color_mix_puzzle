@@ -1,11 +1,9 @@
 import { ClearLottieView, getClearAnimationMeta } from '@/components/lottie/ClearLottieView';
 import { ContinueHint } from '@/components/lottie/ContinueHint';
-import { Theme } from '@/constants/Theme';
-import { woodText } from '@/constants/wood';
 import { getLottieDurationFromSource, LOTTIE_CONFIG } from '@/src/lottie/catalog';
 import LottieView from 'lottie-react-native';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 
 type Props = {
   visible: boolean;
@@ -50,12 +48,6 @@ export function ClearLottieOverlay({ visible, playId, onComplete }: Props) {
     setAnimationDone(false);
 
     const meta = getClearAnimationMeta();
-    if (__DEV__) {
-      console.log(
-        `[Lottie] clear overlay playId=${playId} ${meta.nm} L${meta.layers} op${meta.op}`,
-      );
-    }
-
     const durationMs = getLottieDurationFromSource(meta);
     const id = setTimeout(markAnimationDone, durationMs + 250);
     return () => clearTimeout(id);
@@ -97,12 +89,6 @@ export function ClearLottieOverlay({ visible, playId, onComplete }: Props) {
         />
       )}
 
-      {__DEV__ && (
-        <Text style={styles.debugLabel} pointerEvents="none">
-          clear / {getClearAnimationMeta().nm} / #{playId}
-        </Text>
-      )}
-
       <Pressable
         style={StyleSheet.absoluteFill}
         onPress={onPress}
@@ -125,18 +111,5 @@ const styles = StyleSheet.create({
   lottie: {
     width: '100%',
     height: '100%',
-  },
-  debugLabel: {
-    position: 'absolute',
-    top: 48,
-    alignSelf: 'center',
-    zIndex: 3,
-    ...woodText,
-    fontSize: 10,
-    color: Theme.danger,
-    backgroundColor: 'rgba(255,255,255,0.9)',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 4,
   },
 });

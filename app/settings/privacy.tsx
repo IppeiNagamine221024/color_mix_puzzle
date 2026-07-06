@@ -15,21 +15,29 @@ export default function PrivacyScreen() {
         <View style={settingsSubContent.card}>
           <Text style={styles.heading}>1. 収集する情報</Text>
           <Text style={settingsSubContent.body}>
-            本アプリは、ゲームの進行状況を端末内に保存します。現時点ではサーバーへの個人情報の送信は行いません（広告・課金を導入する際は本ポリシーを更新します）。
+            本アプリは、ゲームの進行状況・音量設定などを端末内に保存します。広告配信のため、Google
+            AdMob が広告識別子や端末情報を収集する場合があります。iOS では App Tracking
+            Transparency（ATT）に基づき、追跡の許可を求める場合があります。
           </Text>
         </View>
         <View style={settingsSubContent.card}>
           <Text style={styles.heading}>2. 利用目的</Text>
           <Text style={settingsSubContent.body}>
-            保存したデータは、ステージの進行・設定の保持のためにのみ使用します。
+            保存したデータは、ステージの進行・設定の保持のために使用します。広告データは広告の配信・効果測定のために使用されます。
           </Text>
         </View>
         <View style={settingsSubContent.card}>
-          <Text style={styles.heading}>3. お問い合わせ</Text>
+          <Text style={styles.heading}>3. 第三者への提供</Text>
+          <Text style={settingsSubContent.body}>
+            広告配信のため Google LLC（AdMob）のサービスを利用しています。詳細は Google のプライバシーポリシーをご確認ください。
+          </Text>
+        </View>
+        <View style={settingsSubContent.card}>
+          <Text style={styles.heading}>4. お問い合わせ</Text>
           <Text style={settingsSubContent.body}>
             本ポリシーに関するお問い合わせは、アプリ配信ページの開発者連絡先よりご連絡ください。
           </Text>
-          <Text style={settingsSubContent.note}>最終更新: 2026年6月（仮）</Text>
+          <Text style={settingsSubContent.note}>最終更新: 2026年7月</Text>
         </View>
       </ScrollView>
     </View>

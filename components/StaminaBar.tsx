@@ -3,11 +3,14 @@ import { Animated, Easing, StyleSheet, Text, View } from 'react-native';
 import { Theme } from '@/constants/Theme';
 import { woodPanel, woodText } from '@/constants/wood';
 import { STAMINA_MAX } from '@/src/storage/stamina';
+import { formatUnlimitedPlayRemaining } from '@/src/iap/unlimitedPlay';
 
 type Props = {
   current: number;
   recoveryMs: number;
   consumingIndex?: number | null;
+  unlimitedPlayActive?: boolean;
+  unlimitedPlayMs?: number;
 };
 
 const CONSUME_MS = 480;
@@ -77,7 +80,24 @@ function PaintDot({
   );
 }
 
-export function StaminaBar({ current, recoveryMs, consumingIndex = null }: Props) {
+export function StaminaBar({
+  current,
+  recoveryMs,
+  consumingIndex = null,
+  unlimitedPlayActive = false,
+  unlimitedPlayMs = 0,
+}: Props) {
+  if (unlimitedPlayActive) {
+    return (
+      <View style={[styles.wrap, styles.wrapUnlimited]}>
+        <Text style={styles.unlimitedBadge}>24h 遊び放題</Text>
+        <Text style={styles.unlimitedTimer}>
+          残り {formatUnlimitedPlayRemaining(unlimitedPlayMs)}
+        </Text>
+      </View>
+    );
+  }
+
   return (
     <View style={[styles.wrap, consumingIndex != null && styles.wrapActive]}>
       <View style={styles.dotsRow}>
@@ -115,6 +135,23 @@ const styles = StyleSheet.create({
   wrapActive: {
     borderColor: Theme.heart,
     backgroundColor: Theme.warmSoft,
+  },
+  wrapUnlimited: {
+    borderColor: Theme.accent,
+    backgroundColor: Theme.accentSoft,
+    justifyContent: 'space-between',
+  },
+  unlimitedBadge: {
+    ...woodText,
+    fontSize: 13,
+    fontWeight: '800',
+    color: Theme.accent,
+  },
+  unlimitedTimer: {
+    ...woodText,
+    fontSize: 12,
+    fontWeight: '700',
+    color: Theme.text,
   },
   dotsRow: { flexDirection: 'row', gap: 8 },
   dot: {
