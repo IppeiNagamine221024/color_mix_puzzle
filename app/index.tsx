@@ -1,0 +1,400 @@
+import { DevClearStagesButtons } from '@/components/dev/DevClearStagesButtons';
+import { DevStaminaButton } from '@/components/dev/DevStaminaButton';
+import { EnterLottieOverlay } from '@/components/lottie';
+import { STAMINA_CONSUME_MS, StaminaBar } from '@/components/StaminaBar';
+import { Theme } from '@/constants/Theme';
+import { woodButton, woodPanel, woodText, woodTile, woodTitle } from '@/constants/wood';
+import { MockBannerAd, MockRewardButton } from '@/src/ads/mockAds';
+import { playSe } from '@/src/audio/playSe';
+import { useBgm } from '@/src/audio/useBgm';
+import { getAllStages, isTutorialStage } from '@/src/game/stages';
+import { REWARDED_AD_DAILY_LIMIT } from '@/src/storage/stamina';
+import {
+  canShowRewardButton,
+  canStartNewStage,
+  useAppStore,
+} from '@/src/stores/appStore';
+import { useFocusEffect, useRouter, type Href } from 'expo-router';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import {
+  ActivityIndicator,
+  Dimensions,
+  Image,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
+const COLS = 5;
+const STAGE_CELL = Math.floor((Dimensions.get('window').width - 24) / COLS) - 2;
+
+export default function MainScreen() {
+  const router = useRouter();
+  const { ready, save, recoveryMs, hydrate, watchRewardedAd, tickRecovery, startStage } =
+    useAppStore();
+  const [enterVisible, setEnterVisible] = useState(false);
+  const [enteringStageId, setEnteringStageId] = useState<number | null>(null);
+  const [consumingHeartIndex, setConsumingHeartIndex] = useState<number | null>(null);
+  const enteringRef = useRef(false);
+  const pendingEntryRef = useRef<{ href: string } | null>(null);
+
+  useEffect(() => {
+    hydrate();
+  }, [hydrate]);
+
+  useFocusEffect(
+    useCallback(() => {
+      setEnterVisible(false);
+      pendingEntryRef.current = null;
+      setEnteringStageId(null);
+      setConsumingHeartIndex(null);
+      enteringRef.current = false;
+      tickRecovery();
+      const id = setInterval(tickRecovery, 1000);
+      return () => clearInterval(id);
+    }, [tickRecovery]),
+  );
+
+  useBgm('home');
+
+  const onEnterDismiss = useCallback(() => {
+    const entry = pendingEntryRef.current;
+    if (!entry) return;
+    router.push(entry.href as Href);
+  }, [router]);
+
+  const showEnterLottie = useCallback((stageId: number, href: string) => {
+    pendingEntryRef.current = { href };
+    //playSe('start');
+    setEnterVisible(true);
+  }, []);
+
+  const onStagePress = useCallback(
+    async (stageId: number) => {
+      if (enteringRef.current || !canStartNewStage(save, stageId)) return;
+
+      playSe('start');
+      enteringRef.current = true;
+
+      if (isTutorialStage(stageId)) {
+        showEnterLottie(stageId, `/game/${stageId}`);
+        return;
+      }
+
+      setEnteringStageId(stageId);
+      setConsumingHeartIndex(save.stamina.current - 1);
+
+      await new Promise((r) => setTimeout(r, STAMINA_CONSUME_MS));
+
+      const ok = await startStage(stageId, null, true);
+      setConsumingHeartIndex(null);
+      setEnteringStageId(null);
+
+      if (ok) {
+        showEnterLottie(stageId, `/game/${stageId}?started=1`);
+      } else {
+        enteringRef.current = false;
+      }
+    },
+    [save, showEnterLottie, startStage],
+  );
+
+  const onContinue = useCallback(() => {
+    if (enteringRef.current) return;
+    const p = save.stageProgress;
+    if (!p) return;
+    playSe('start');
+    enteringRef.current = true;
+    showEnterLottie(p.stageId, `/game/${p.stageId}?continue=1`);
+  }, [save.stageProgress, showEnterLottie]);
+
+  if (!ready) {
+    return (
+      <View style={styles.loading}>
+        <ActivityIndicator size="large" color={Theme.accent} />
+      </View>
+    );
+  }
+
+  const stages = getAllStages();
+  const rewardOk = canShowRewardButton(save);
+  const isEntering = enteringStageId != null || enterVisible;
+
+  return (
+    <View style={styles.root}>
+      <SafeAreaView style={styles.safe} edges={['top', 'left', 'right']}>
+      <View style={styles.hero}>
+        <View style={styles.heroRow}>
+          <View style={styles.heroSide} />
+          <View style={styles.heroPlate}>
+            <Text style={styles.title}>Color Order</Text>
+          </View>
+          <View style={styles.heroSideRight}>
+            <Pressable
+              style={styles.settingsBtn}
+              onPress={() => {
+                playSe('uiTap');
+                router.push('/settings' as Href);
+              }}
+              disabled={isEntering}
+              accessibilityLabel="設定"
+            >
+              <Image
+                source={require('@/assets/images/settings-icon.png')}
+                style={styles.settingsIcon}
+                resizeMode="contain"
+              />
+            </Pressable>
+          </View>
+        </View>
+      </View>
+
+      <StaminaBar
+        current={save.stamina.current}
+        recoveryMs={recoveryMs}
+        consumingIndex={consumingHeartIndex}
+      />
+
+      <DevStaminaButton disabled={isEntering} />
+      <DevClearStagesButtons disabled={isEntering} />
+
+      {rewardOk ? (
+        <MockRewardButton
+          onReward={() => watchRewardedAd()}
+          label={`▶ 広告でスタミナ回復 (今日 残り回数${save.rewardedAd.dailyCount})`}
+          disabled={isEntering}
+        />
+      ) : save.rewardedAd.dailyCount >= REWARDED_AD_DAILY_LIMIT ? (
+        <Text style={styles.limitText}>
+          本日の回復上限に達しました ({REWARDED_AD_DAILY_LIMIT}/{REWARDED_AD_DAILY_LIMIT})
+        </Text>
+      ) : null}
+
+      {save.stageProgress && (
+        <Pressable style={styles.continueBtn} onPress={onContinue} disabled={isEntering}>
+          <Text style={styles.continueText}>
+            ▶ ステージ {save.stageProgress.stageId} から続ける
+          </Text>
+        </Pressable>
+      )}
+
+      <View style={styles.sectionHeader}>
+        <Text style={styles.section}>ステージ選択</Text>
+        <Text style={styles.clearedCount}>
+          {save.clearedStages.length} / {stages.length} クリア
+        </Text>
+      </View>
+
+      <ScrollView
+        style={styles.scroll}
+        contentContainerStyle={styles.grid}
+        scrollEnabled={!isEntering}
+      >
+        {stages.map((stage) => {
+          const locked = stage.id > save.unlockedStageId;
+          const cleared = save.clearedStages.includes(stage.id);
+          const canStart = canStartNewStage(save, stage.id);
+          const freePlay = isTutorialStage(stage.id);
+          return (
+            <Pressable
+              key={stage.id}
+              style={[
+                styles.stageBtn,
+                woodTile(cleared ? Theme.accentSoft : Theme.surface, cleared),
+                locked && styles.stageLocked,
+                !canStart && !locked && styles.stageDisabled,
+                freePlay && styles.stageBtnFreePlay,
+              ]}
+              disabled={locked || !canStart || isEntering}
+              onPress={() => onStagePress(stage.id)}
+            >
+              {cleared && (
+                <Text style={styles.clearLabel} numberOfLines={1}>
+                  CLEAR
+                </Text>
+              )}
+              {freePlay && (
+                <View style={[styles.freePlayBadge, locked && styles.freePlayBadgeLocked]}>
+                  <Text style={styles.freePlayText}>FREE</Text>
+                  <Text style={styles.freePlayText}>PLAY</Text>
+                </View>
+              )}
+              <Text
+                style={[
+                  styles.stageNum,
+                  freePlay && styles.stageNumFreePlay,
+                  cleared && styles.stageNumCleared,
+                  locked && styles.stageNumLocked,
+                ]}
+              >
+                {stage.id}
+              </Text>
+            </Pressable>
+          );
+        })}
+      </ScrollView>
+
+      <MockBannerAd />
+      </SafeAreaView>
+
+      <EnterLottieOverlay visible={enterVisible} onDismiss={onEnterDismiss} />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  root: { flex: 1, backgroundColor: Theme.bg },
+  safe: { flex: 1, backgroundColor: Theme.bg },
+  loading: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: Theme.bg,
+  },
+  hero: {
+    alignItems: 'center',
+    paddingTop: 14,
+    paddingBottom: 10,
+    paddingHorizontal: 12,
+  },
+  heroRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '100%',
+  },
+  heroSide: {
+    flex: 1,
+  },
+  heroSideRight: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingLeft: 10,
+  },
+  heroPlate: {
+    paddingHorizontal: 28,
+    paddingVertical: 14,
+    ...woodPanel,
+    borderColor: Theme.border,
+  },
+  settingsBtn: {
+    width: 44,
+    height: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
+    ...woodButton(Theme.surfaceRaised),
+  },
+  settingsIcon: {
+    width: 32,
+    height: 32,
+  },
+  title: {
+    ...woodTitle,
+    fontSize: 26,
+    fontWeight: '700',
+    color: Theme.text,
+    letterSpacing: 1,
+  },
+  limitText: {
+    ...woodText,
+    textAlign: 'center',
+    color: Theme.textDim,
+    marginBottom: 8,
+    fontSize: 12,
+  },
+  continueBtn: {
+    marginHorizontal: 16,
+    marginBottom: 8,
+    padding: 14,
+    ...woodButton(Theme.surfaceRaised),
+  },
+  continueText: { ...woodText, color: Theme.accent, textAlign: 'center', fontSize: 14, fontWeight: '600' },
+  sectionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginHorizontal: 16,
+    marginTop: 8,
+    marginBottom: 6,
+    paddingBottom: 6,
+    borderBottomWidth: 1,
+    borderBottomColor: Theme.border,
+  },
+  section: {
+    ...woodTitle,
+    fontWeight: '700',
+    fontSize: 15,
+  },
+  clearedCount: {
+    ...woodText,
+    fontSize: 12,
+    color: Theme.textDim,
+  },
+  scroll: { flex: 1 },
+  grid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    padding: 10,
+    gap: 4,
+    justifyContent: 'center',
+  },
+  stageBtn: {
+    width: STAGE_CELL,
+    height: STAGE_CELL,
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: 3,
+    overflow: 'hidden',
+  },
+  stageBtnFreePlay: {
+    borderColor: Theme.success,
+  },
+  stageLocked: {
+    opacity: 0.45,
+  },
+  stageDisabled: {
+    opacity: 0.5,
+    borderColor: Theme.danger,
+  },
+  clearLabel: {
+    position: 'absolute',
+    top: 3,
+    right: 3,
+    zIndex: 1,
+    ...woodText,
+    fontSize: 8,
+    fontWeight: '800',
+    color: Theme.success,
+    letterSpacing: -0.2,
+  },
+  freePlayBadge: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: Theme.success,
+    paddingVertical: 2,
+    alignItems: 'center',
+  },
+  freePlayBadgeLocked: {
+    backgroundColor: Theme.teal,
+    opacity: 0.85,
+  },
+  freePlayText: {
+    ...woodText,
+    fontSize: 7,
+    fontWeight: '800',
+    color: '#fff',
+    letterSpacing: 0.3,
+    lineHeight: 8,
+  },
+  stageNum: { ...woodText, fontSize: 18, fontWeight: '700' },
+  stageNumFreePlay: {
+    marginBottom: 10,
+  },
+  stageNumCleared: { color: Theme.accent },
+  stageNumLocked: { color: Theme.textDim },
+});

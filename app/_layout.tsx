@@ -1,56 +1,51 @@
-import { useFonts } from 'expo-font';
-import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from 'expo-router';
+import { Theme } from '@/constants/Theme';
+import { audio } from '@/src/audio/audioService';
+import { initStaminaNotifications } from '@/src/notifications/staminaNotification';
+import { useSettingsStore } from '@/src/stores/settingsStore';
+import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
+import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
+import { StyleSheet, View } from 'react-native';
 import 'react-native-reanimated';
 
-import { useColorScheme } from '@/components/useColorScheme';
+export { ErrorBoundary } from 'expo-router';
 
-export {
-  // Catch any errors thrown by the Layout component.
-  ErrorBoundary,
-} from 'expo-router';
-
-export const unstable_settings = {
-  // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: '(tabs)',
-};
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const [loaded, error] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
-
-  // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
-    if (error) throw error;
-  }, [error]);
-
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
-
-  if (!loaded) {
-    return null;
-  }
-
-  return <RootLayoutNav />;
-}
-
-function RootLayoutNav() {
-  const colorScheme = useColorScheme();
+    SplashScreen.hideAsync();
+    void audio.init();
+    void initStaminaNotifications();
+    void useSettingsStore.getState().hydrate();
+  }, []);
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-      </Stack>
-    </ThemeProvider>
+    <>
+      <StatusBar style="dark" />
+      <View style={styles.root}>
+        <Stack
+          screenOptions={{
+            contentStyle: { backgroundColor: Theme.bg },
+            animation: 'fade',
+          }}
+        >
+          <Stack.Screen
+            name="index"
+            options={{ title: 'Color Order', headerShown: false }}
+          />
+          <Stack.Screen name="settings" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="game/[stageId]"
+            options={{ title: 'プレイ', headerShown: false, animation: 'none' }}
+          />
+        </Stack>
+      </View>
+    </>
   );
 }
+
+const styles = StyleSheet.create({
+  root: { flex: 1 },
+});

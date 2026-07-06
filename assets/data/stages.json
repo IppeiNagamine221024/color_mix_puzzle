@@ -1,0 +1,5583 @@
+[
+  {
+    "id": 1,
+    "name": "チュートリアル 1",
+    "board": {
+      "width": 4,
+      "height": 3
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 2,
+        "y": 1,
+        "color": "cyan"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "cyan"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "magenta"
+        }
+      ]
+    },
+    "maxTurns": 99,
+    "next": {
+      "initial": "magenta"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 1,
+      "par": 1,
+      "isTutorial": true
+    }
+  },
+  {
+    "id": 2,
+    "name": "チュートリアル 2",
+    "board": {
+      "width": 4,
+      "height": 3
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 1,
+        "color": "yellow"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "yellow"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "magenta"
+        }
+      ]
+    },
+    "maxTurns": 99,
+    "next": {
+      "initial": "magenta"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 1,
+      "par": 3,
+      "isTutorial": true
+    }
+  },
+  {
+    "id": 3,
+    "name": "チュートリアル 3",
+    "board": {
+      "width": 4,
+      "height": 3
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 2,
+        "y": 1,
+        "color": "cyan"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "cyan"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "yellow"
+        }
+      ]
+    },
+    "maxTurns": 99,
+    "next": {
+      "initial": "yellow"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 1,
+      "par": 3,
+      "isTutorial": true
+    }
+  },
+  {
+    "id": 4,
+    "name": "チュートリアル 4",
+    "board": {
+      "width": 4,
+      "height": 3
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 1,
+        "y": 2,
+        "color": "cyan"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "magenta"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "yellow"
+        }
+      ]
+    },
+    "maxTurns": 99,
+    "next": {
+      "initial": "yellow"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 1,
+      "par": 3,
+      "isTutorial": true
+    }
+  },
+  {
+    "id": 5,
+    "name": "チュートリアル 5",
+    "board": {
+      "width": 4,
+      "height": 3
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "cyan"
+      },
+      {
+        "x": 2,
+        "y": 0,
+        "color": "yellow"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "cyan"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "magenta"
+        }
+      ]
+    },
+    "maxTurns": 99,
+    "next": {
+      "initial": "magenta"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 1,
+      "par": 3,
+      "isTutorial": true
+    }
+  },
+  {
+    "id": 6,
+    "name": "ステージ 6",
+    "board": {
+      "width": 4,
+      "height": 3
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "cyan"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "color": "yellow"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "magenta"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "cyan"
+        }
+      ]
+    },
+    "maxTurns": 8,
+    "next": {
+      "initial": "cyan"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 1,
+      "par": 3,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 7,
+    "name": "ステージ 7",
+    "board": {
+      "width": 4,
+      "height": 3
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "magenta"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "color": "yellow"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "cyan"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "yellow"
+        }
+      ]
+    },
+    "maxTurns": 8,
+    "next": {
+      "initial": "cyan"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 1,
+      "par": 3,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 8,
+    "name": "ステージ 8",
+    "board": {
+      "width": 4,
+      "height": 3
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "cyan"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "yellow"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "color": "magenta"
+        }
+      ]
+    },
+    "maxTurns": 9,
+    "next": {
+      "initial": "cyan"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 1,
+      "par": 3,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 9,
+    "name": "ステージ 9",
+    "board": {
+      "width": 4,
+      "height": 3
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "cyan"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "color": "yellow"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "cyan"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "magenta"
+        }
+      ]
+    },
+    "maxTurns": 9,
+    "next": {
+      "initial": "cyan"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 1,
+      "par": 3,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 10,
+    "name": "ステージ 10",
+    "board": {
+      "width": 4,
+      "height": 3
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "magenta"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "color": "yellow"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "magenta"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "yellow"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "cyan"
+        }
+      ]
+    },
+    "maxTurns": 10,
+    "next": {
+      "initial": "cyan"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 1,
+      "par": 3,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 11,
+    "name": "ステージ 11",
+    "board": {
+      "width": 4,
+      "height": 3
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "cyan"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "cyan"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "red"
+        }
+      ]
+    },
+    "maxTurns": 12,
+    "next": {
+      "initial": "yellow"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 1,
+      "par": 3,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 12,
+    "name": "ステージ 12",
+    "board": {
+      "width": 4,
+      "height": 3
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "cyan"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "color": "yellow"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "blue"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "yellow"
+        }
+      ]
+    },
+    "maxTurns": 12,
+    "next": {
+      "initial": "cyan"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 1,
+      "par": 3,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 13,
+    "name": "ステージ 13",
+    "board": {
+      "width": 4,
+      "height": 3
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "magenta"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "color": "yellow"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "magenta"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "green"
+        }
+      ]
+    },
+    "maxTurns": 12,
+    "next": {
+      "initial": "cyan"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 1,
+      "par": 3,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 14,
+    "name": "ステージ 14",
+    "board": {
+      "width": 4,
+      "height": 3
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "yellow"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "yellow"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "color": "red"
+        }
+      ]
+    },
+    "maxTurns": 12,
+    "next": {
+      "initial": "magenta"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 1,
+      "par": 4,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 15,
+    "name": "ステージ 15",
+    "board": {
+      "width": 4,
+      "height": 3
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "cyan"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "color": "yellow"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "red"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "magenta"
+        }
+      ]
+    },
+    "maxTurns": 12,
+    "next": {
+      "initial": "cyan"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 1,
+      "par": 4,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 16,
+    "name": "ステージ 16",
+    "board": {
+      "width": 4,
+      "height": 3
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "magenta"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "color": "yellow"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "green"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "yellow"
+        }
+      ]
+    },
+    "maxTurns": 12,
+    "next": {
+      "initial": "cyan"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 1,
+      "par": 4,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 17,
+    "name": "ステージ 17",
+    "board": {
+      "width": 4,
+      "height": 3
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "yellow"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "red"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "green"
+        }
+      ]
+    },
+    "maxTurns": 13,
+    "next": {
+      "initial": "magenta"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 1,
+      "par": 4,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 18,
+    "name": "ステージ 18",
+    "board": {
+      "width": 4,
+      "height": 3
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "magenta"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "color": "yellow"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "red"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "blue"
+        }
+      ]
+    },
+    "maxTurns": 13,
+    "next": {
+      "initial": "cyan"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 1,
+      "par": 4,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 19,
+    "name": "ステージ 19",
+    "board": {
+      "width": 4,
+      "height": 3
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "magenta"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "color": "yellow"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "blue"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "color": "green"
+        }
+      ]
+    },
+    "maxTurns": 13,
+    "next": {
+      "initial": "cyan"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 1,
+      "par": 4,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 20,
+    "name": "ステージ 20",
+    "board": {
+      "width": 4,
+      "height": 3
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "cyan"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "green"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "cyan"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "color": "red"
+        }
+      ]
+    },
+    "maxTurns": 14,
+    "next": {
+      "initial": "yellow"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 1,
+      "par": 4,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 21,
+    "name": "ステージ 21",
+    "board": {
+      "width": 4,
+      "height": 3
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "cyan"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "color": "yellow"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "orange"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "cyan"
+        }
+      ]
+    },
+    "maxTurns": 13,
+    "next": {
+      "initial": "magenta"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 1,
+      "par": 4,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 22,
+    "name": "ステージ 22",
+    "board": {
+      "width": 4,
+      "height": 3
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "magenta"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "color": "yellow"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "magenta"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "teal"
+        }
+      ]
+    },
+    "maxTurns": 13,
+    "next": {
+      "initial": "cyan"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 1,
+      "par": 5,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 23,
+    "name": "ステージ 23",
+    "board": {
+      "width": 4,
+      "height": 3
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "cyan"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "blue"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "wine"
+        }
+      ]
+    },
+    "maxTurns": 15,
+    "next": {
+      "initial": "magenta"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 1,
+      "par": 5,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 24,
+    "name": "ステージ 24",
+    "board": {
+      "width": 4,
+      "height": 3
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "cyan"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "color": "yellow"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "red"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "sky"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "color": "yellow"
+        }
+      ]
+    },
+    "maxTurns": 15,
+    "next": {
+      "initial": "magenta"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 1,
+      "par": 5,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 25,
+    "name": "ステージ 25",
+    "board": {
+      "width": 4,
+      "height": 3
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "magenta"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "color": "yellow"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "purple"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "color": "orange"
+        }
+      ]
+    },
+    "maxTurns": 15,
+    "next": {
+      "initial": "cyan"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 1,
+      "par": 5,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 26,
+    "name": "ステージ 26",
+    "board": {
+      "width": 4,
+      "height": 3
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "yellow"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "chartreuse"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "magenta"
+        }
+      ]
+    },
+    "maxTurns": 12,
+    "next": {
+      "initial": "cyan"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 2,
+      "par": 6,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 27,
+    "name": "ステージ 27",
+    "board": {
+      "width": 4,
+      "height": 3
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "cyan"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "color": "yellow"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "teal"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "sky"
+        }
+      ]
+    },
+    "maxTurns": 15,
+    "next": {
+      "initial": "cyan"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 2,
+      "par": 6,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 28,
+    "name": "ステージ 28",
+    "board": {
+      "width": 4,
+      "height": 3
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "magenta"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "color": "yellow"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "blue"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "yellow"
+        },
+        {
+          "dx": 2,
+          "dy": 0,
+          "color": "red"
+        }
+      ]
+    },
+    "maxTurns": 15,
+    "next": {
+      "initial": "cyan"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 2,
+      "par": 6,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 29,
+    "name": "ステージ 29",
+    "board": {
+      "width": 4,
+      "height": 3
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "yellow"
+      },
+      {
+        "x": 0,
+        "y": 2,
+        "color": "yellow"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "spring"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "orange"
+        }
+      ]
+    },
+    "maxTurns": 18,
+    "next": {
+      "initial": "cyan"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 2,
+      "par": 6,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 30,
+    "name": "ステージ 30",
+    "board": {
+      "width": 4,
+      "height": 3
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "cyan"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "color": "yellow"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "green"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "yellow"
+        },
+        {
+          "dx": 0,
+          "dy": 2,
+          "color": "wine"
+        }
+      ]
+    },
+    "maxTurns": 16,
+    "next": {
+      "initial": "magenta"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 2,
+      "par": 7,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 31,
+    "name": "ステージ 31",
+    "board": {
+      "width": 4,
+      "height": 4
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "magenta"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "color": "yellow"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "cyan"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "color": "red"
+        }
+      ]
+    },
+    "maxTurns": 10,
+    "next": {
+      "initial": "cyan"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 2,
+      "par": 7,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 32,
+    "name": "ステージ 32",
+    "board": {
+      "width": 4,
+      "height": 4
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "yellow"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "color": "cyan"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "green"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "red"
+        }
+      ]
+    },
+    "maxTurns": 10,
+    "next": {
+      "initial": "magenta"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 2,
+      "par": 4,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 33,
+    "name": "ステージ 33",
+    "board": {
+      "width": 4,
+      "height": 4
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "cyan"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "color": "magenta"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "blue"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "red"
+        }
+      ]
+    },
+    "maxTurns": 10,
+    "next": {
+      "initial": "yellow"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 2,
+      "par": 4,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 34,
+    "name": "ステージ 34",
+    "board": {
+      "width": 4,
+      "height": 4
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "magenta"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "color": "yellow"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "red"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "blue"
+        }
+      ]
+    },
+    "maxTurns": 10,
+    "next": {
+      "initial": "cyan"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 2,
+      "par": 4,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 35,
+    "name": "ステージ 35",
+    "board": {
+      "width": 4,
+      "height": 4
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "yellow"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "color": "cyan"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "green"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "blue"
+        }
+      ]
+    },
+    "maxTurns": 10,
+    "next": {
+      "initial": "magenta"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 2,
+      "par": 4,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 36,
+    "name": "ステージ 36",
+    "board": {
+      "width": 4,
+      "height": 4
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "cyan"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "color": "magenta"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "purple"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "yellow"
+        }
+      ]
+    },
+    "maxTurns": 10,
+    "next": {
+      "initial": "yellow"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 2,
+      "par": 4,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 37,
+    "name": "ステージ 37",
+    "board": {
+      "width": 4,
+      "height": 4
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "magenta"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "color": "yellow"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "green"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "color": "blue"
+        }
+      ]
+    },
+    "maxTurns": 10,
+    "next": {
+      "initial": "cyan"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 2,
+      "par": 4,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 38,
+    "name": "ステージ 38",
+    "board": {
+      "width": 4,
+      "height": 4
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "yellow"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "color": "cyan"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "red"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "color": "green"
+        }
+      ]
+    },
+    "maxTurns": 10,
+    "next": {
+      "initial": "magenta"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 2,
+      "par": 4,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 39,
+    "name": "ステージ 39",
+    "board": {
+      "width": 4,
+      "height": 4
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "cyan"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "color": "magenta"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "blue"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "red"
+        }
+      ]
+    },
+    "maxTurns": 10,
+    "next": {
+      "initial": "yellow"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 2,
+      "par": 4,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 40,
+    "name": "ステージ 40",
+    "board": {
+      "width": 4,
+      "height": 4
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "magenta"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "color": "yellow"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "orange"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "green"
+        }
+      ]
+    },
+    "maxTurns": 11,
+    "next": {
+      "initial": "yellow"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 2,
+      "par": 5,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 41,
+    "name": "ステージ 41",
+    "board": {
+      "width": 4,
+      "height": 4
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "yellow"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "color": "cyan"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "teal"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "red"
+        }
+      ]
+    },
+    "maxTurns": 11,
+    "next": {
+      "initial": "magenta"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 2,
+      "par": 5,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 42,
+    "name": "ステージ 42",
+    "board": {
+      "width": 4,
+      "height": 4
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "cyan"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "color": "magenta"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "blue"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "wine"
+        }
+      ]
+    },
+    "maxTurns": 12,
+    "next": {
+      "initial": "yellow"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 2,
+      "par": 5,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 43,
+    "name": "ステージ 43",
+    "board": {
+      "width": 4,
+      "height": 4
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "magenta"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "color": "yellow"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "sky"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "red"
+        }
+      ]
+    },
+    "maxTurns": 11,
+    "next": {
+      "initial": "cyan"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 2,
+      "par": 5,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 44,
+    "name": "ステージ 44",
+    "board": {
+      "width": 4,
+      "height": 4
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "yellow"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "color": "cyan"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "orange"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "color": "blue"
+        }
+      ]
+    },
+    "maxTurns": 11,
+    "next": {
+      "initial": "magenta"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 2,
+      "par": 5,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 45,
+    "name": "ステージ 45",
+    "board": {
+      "width": 4,
+      "height": 4
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "cyan"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "color": "magenta"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "purple"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "chartreuse"
+        }
+      ]
+    },
+    "maxTurns": 12,
+    "next": {
+      "initial": "yellow"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 2,
+      "par": 6,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 46,
+    "name": "ステージ 46",
+    "board": {
+      "width": 4,
+      "height": 4
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "magenta"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "color": "yellow"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "cyan"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "magenta"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "yellow"
+        }
+      ]
+    },
+    "maxTurns": 11,
+    "next": {
+      "initial": "cyan"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 3,
+      "par": 3,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 47,
+    "name": "ステージ 47",
+    "board": {
+      "width": 4,
+      "height": 4
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "yellow"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "color": "cyan"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "green"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "yellow"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "color": "magenta"
+        }
+      ]
+    },
+    "maxTurns": 12,
+    "next": {
+      "initial": "magenta"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 3,
+      "par": 4,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 48,
+    "name": "ステージ 48",
+    "board": {
+      "width": 4,
+      "height": 4
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "cyan"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "color": "magenta"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "yellow"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "cyan"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "color": "red"
+        }
+      ]
+    },
+    "maxTurns": 12,
+    "next": {
+      "initial": "yellow"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 3,
+      "par": 4,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 49,
+    "name": "ステージ 49",
+    "board": {
+      "width": 4,
+      "height": 4
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "magenta"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "color": "yellow"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "cyan"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "green"
+        },
+        {
+          "dx": 2,
+          "dy": 0,
+          "color": "yellow"
+        }
+      ]
+    },
+    "maxTurns": 12,
+    "next": {
+      "initial": "cyan"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 3,
+      "par": 4,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 50,
+    "name": "ステージ 50",
+    "board": {
+      "width": 4,
+      "height": 4
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "yellow"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "color": "cyan"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "cyan"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "color": "magenta"
+        },
+        {
+          "dx": 2,
+          "dy": 2,
+          "color": "yellow"
+        }
+      ]
+    },
+    "maxTurns": 11,
+    "next": {
+      "initial": "magenta"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 3,
+      "par": 3,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 51,
+    "name": "ステージ 51",
+    "board": {
+      "width": 4,
+      "height": 4
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "cyan"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "color": "magenta"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "blue"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "green"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "color": "red"
+        }
+      ]
+    },
+    "maxTurns": 14,
+    "next": {
+      "initial": "yellow"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 3,
+      "par": 6,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 52,
+    "name": "ステージ 52",
+    "board": {
+      "width": 4,
+      "height": 4
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "magenta"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "color": "cyan"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "magenta"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "purple"
+        },
+        {
+          "dx": 0,
+          "dy": 2,
+          "color": "blue"
+        }
+      ]
+    },
+    "maxTurns": 16,
+    "next": {
+      "initial": "magenta"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 3,
+      "par": 6,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 53,
+    "name": "ステージ 53",
+    "board": {
+      "width": 4,
+      "height": 4
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "yellow"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "color": "cyan"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "red"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "green"
+        },
+        {
+          "dx": 2,
+          "dy": 0,
+          "color": "blue"
+        }
+      ]
+    },
+    "maxTurns": 14,
+    "next": {
+      "initial": "magenta"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 3,
+      "par": 6,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 54,
+    "name": "ステージ 54",
+    "board": {
+      "width": 4,
+      "height": 4
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "yellow"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "color": "magenta"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "orange"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "yellow"
+        },
+        {
+          "dx": 2,
+          "dy": 0,
+          "color": "red"
+        }
+      ]
+    },
+    "maxTurns": 12,
+    "next": {
+      "initial": "yellow"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 3,
+      "par": 6,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 55,
+    "name": "ステージ 55",
+    "board": {
+      "width": 4,
+      "height": 4
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "magenta"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "color": "yellow"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "cyan"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "magenta"
+        },
+        {
+          "dx": 2,
+          "dy": 0,
+          "color": "yellow"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "color": "red"
+        }
+      ]
+    },
+    "maxTurns": 11,
+    "next": {
+      "initial": "cyan"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 3,
+      "par": 5,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 56,
+    "name": "ステージ 56",
+    "board": {
+      "width": 4,
+      "height": 4
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "yellow"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "color": "cyan"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "cyan"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "magenta"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "yellow"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "color": "red"
+        }
+      ]
+    },
+    "maxTurns": 13,
+    "next": {
+      "initial": "magenta"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 3,
+      "par": 5,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 57,
+    "name": "ステージ 57",
+    "board": {
+      "width": 4,
+      "height": 4
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "cyan"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "color": "magenta"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "magenta"
+        },
+        {
+          "dx": 2,
+          "dy": 0,
+          "color": "yellow"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "cyan"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "color": "green"
+        }
+      ]
+    },
+    "maxTurns": 15,
+    "next": {
+      "initial": "yellow"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 3,
+      "par": 5,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 58,
+    "name": "ステージ 58",
+    "board": {
+      "width": 4,
+      "height": 4
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "magenta"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "color": "yellow"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "green"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "yellow"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "color": "magenta"
+        },
+        {
+          "dx": 2,
+          "dy": 1,
+          "color": "red"
+        }
+      ]
+    },
+    "maxTurns": 16,
+    "next": {
+      "initial": "cyan"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 3,
+      "par": 6,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 59,
+    "name": "ステージ 59",
+    "board": {
+      "width": 4,
+      "height": 4
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "yellow"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "color": "cyan"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "red"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "cyan"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "color": "green"
+        },
+        {
+          "dx": 2,
+          "dy": 1,
+          "color": "magenta"
+        }
+      ]
+    },
+    "maxTurns": 16,
+    "next": {
+      "initial": "magenta"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 3,
+      "par": 6,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 60,
+    "name": "ステージ 60",
+    "board": {
+      "width": 4,
+      "height": 4
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "cyan"
+      },
+      {
+        "x": 3,
+        "y": 0,
+        "color": "magenta"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "cyan"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "green"
+        },
+        {
+          "dx": 0,
+          "dy": 2,
+          "color": "red"
+        },
+        {
+          "dx": 1,
+          "dy": 2,
+          "color": "yellow"
+        }
+      ]
+    },
+    "maxTurns": 15,
+    "next": {
+      "initial": "yellow"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 3,
+      "par": 6,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 61,
+    "name": "ステージ 61",
+    "board": {
+      "width": 5,
+      "height": 5
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "magenta"
+      },
+      {
+        "x": 4,
+        "y": 0,
+        "color": "cyan"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "blue"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "sky"
+        },
+        {
+          "dx": 0,
+          "dy": 2,
+          "color": "cyan"
+        }
+      ]
+    },
+    "maxTurns": 13,
+    "next": {
+      "initial": "cyan"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 4,
+      "par": 6,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 62,
+    "name": "ステージ 62",
+    "board": {
+      "width": 5,
+      "height": 5
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "yellow"
+      },
+      {
+        "x": 4,
+        "y": 0,
+        "color": "cyan"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "blue"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "color": "green"
+        },
+        {
+          "dx": 2,
+          "dy": 2,
+          "color": "red"
+        }
+      ]
+    },
+    "maxTurns": 16,
+    "next": {
+      "initial": "magenta"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 4,
+      "par": 6,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 63,
+    "name": "ステージ 63",
+    "board": {
+      "width": 5,
+      "height": 5
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "cyan"
+      },
+      {
+        "x": 4,
+        "y": 0,
+        "color": "magenta"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "teal"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "sky"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "color": "red"
+        }
+      ]
+    },
+    "maxTurns": 18,
+    "next": {
+      "initial": "yellow"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 4,
+      "par": 8,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 64,
+    "name": "ステージ 64",
+    "board": {
+      "width": 5,
+      "height": 5
+    },
+    "obstacles": [],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "cyan"
+      },
+      {
+        "x": 4,
+        "y": 0,
+        "color": "yellow"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "teal"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "green"
+        },
+        {
+          "dx": 2,
+          "dy": 0,
+          "color": "chartreuse"
+        }
+      ]
+    },
+    "maxTurns": 18,
+    "next": {
+      "initial": "cyan"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 4,
+      "par": 8,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 65,
+    "name": "ステージ 65",
+    "board": {
+      "width": 5,
+      "height": 5
+    },
+    "obstacles": [
+      {
+        "x": 2,
+        "y": 2
+      }
+    ],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "yellow"
+      },
+      {
+        "x": 4,
+        "y": 0,
+        "color": "cyan"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "chartreuse"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "green"
+        },
+        {
+          "dx": 0,
+          "dy": 2,
+          "color": "yellow"
+        }
+      ]
+    },
+    "maxTurns": 16,
+    "next": {
+      "initial": "cyan"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 4,
+      "par": 6,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 66,
+    "name": "ステージ 66",
+    "board": {
+      "width": 5,
+      "height": 5
+    },
+    "obstacles": [
+      {
+        "x": 2,
+        "y": 2
+      }
+    ],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "cyan"
+      },
+      {
+        "x": 4,
+        "y": 0,
+        "color": "magenta"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "orange"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "red"
+        },
+        {
+          "dx": 0,
+          "dy": 2,
+          "color": "magenta"
+        }
+      ]
+    },
+    "maxTurns": 16,
+    "next": {
+      "initial": "yellow"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 4,
+      "par": 6,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 67,
+    "name": "ステージ 67",
+    "board": {
+      "width": 5,
+      "height": 5
+    },
+    "obstacles": [
+      {
+        "x": 2,
+        "y": 2
+      }
+    ],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "magenta"
+      },
+      {
+        "x": 4,
+        "y": 0,
+        "color": "yellow"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "cyan"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "magenta"
+        },
+        {
+          "dx": 2,
+          "dy": 0,
+          "color": "yellow"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "color": "green"
+        }
+      ]
+    },
+    "maxTurns": 17,
+    "next": {
+      "initial": "cyan"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 4,
+      "par": 5,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 68,
+    "name": "ステージ 68",
+    "board": {
+      "width": 5,
+      "height": 5
+    },
+    "obstacles": [
+      {
+        "x": 2,
+        "y": 2
+      }
+    ],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "magenta"
+      },
+      {
+        "x": 4,
+        "y": 0,
+        "color": "cyan"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "purple"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "blue"
+        },
+        {
+          "dx": 2,
+          "dy": 0,
+          "color": "sky"
+        }
+      ]
+    },
+    "maxTurns": 18,
+    "next": {
+      "initial": "magenta"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 4,
+      "par": 8,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 69,
+    "name": "ステージ 69",
+    "board": {
+      "width": 5,
+      "height": 5
+    },
+    "obstacles": [
+      {
+        "x": 2,
+        "y": 2
+      }
+    ],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "cyan"
+      },
+      {
+        "x": 4,
+        "y": 0,
+        "color": "magenta"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "cyan"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "green"
+        },
+        {
+          "dx": 2,
+          "dy": 0,
+          "color": "yellow"
+        },
+        {
+          "dx": 2,
+          "dy": 1,
+          "color": "orange"
+        }
+      ]
+    },
+    "maxTurns": 20,
+    "next": {
+      "initial": "yellow"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 4,
+      "par": 7,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 70,
+    "name": "ステージ 70",
+    "board": {
+      "width": 5,
+      "height": 5
+    },
+    "obstacles": [
+      {
+        "x": 2,
+        "y": 2
+      }
+    ],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "magenta"
+      },
+      {
+        "x": 4,
+        "y": 0,
+        "color": "yellow"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "wine"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "red"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "color": "magenta"
+        },
+        {
+          "dx": 2,
+          "dy": 1,
+          "color": "yellow"
+        }
+      ]
+    },
+    "maxTurns": 19,
+    "next": {
+      "initial": "cyan"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 4,
+      "par": 7,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 71,
+    "name": "ステージ 71",
+    "board": {
+      "width": 5,
+      "height": 5
+    },
+    "obstacles": [
+      {
+        "x": 2,
+        "y": 2
+      }
+    ],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "yellow"
+      },
+      {
+        "x": 4,
+        "y": 0,
+        "color": "cyan"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "magenta"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "purple"
+        },
+        {
+          "dx": 0,
+          "dy": 2,
+          "color": "blue"
+        },
+        {
+          "dx": 1,
+          "dy": 2,
+          "color": "cyan"
+        }
+      ]
+    },
+    "maxTurns": 19,
+    "next": {
+      "initial": "magenta"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 4,
+      "par": 7,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 72,
+    "name": "ステージ 72",
+    "board": {
+      "width": 5,
+      "height": 5
+    },
+    "obstacles": [
+      {
+        "x": 2,
+        "y": 2
+      }
+    ],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "cyan"
+      },
+      {
+        "x": 4,
+        "y": 0,
+        "color": "magenta"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "orange"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "color": "purple"
+        },
+        {
+          "dx": 2,
+          "dy": 2,
+          "color": "teal"
+        }
+      ]
+    },
+    "maxTurns": 20,
+    "next": {
+      "initial": "yellow"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 4,
+      "par": 9,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 73,
+    "name": "ステージ 73",
+    "board": {
+      "width": 5,
+      "height": 5
+    },
+    "obstacles": [
+      {
+        "x": 2,
+        "y": 2
+      }
+    ],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "magenta"
+      },
+      {
+        "x": 4,
+        "y": 0,
+        "color": "yellow"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "cyan"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "blue"
+        },
+        {
+          "dx": 2,
+          "dy": 0,
+          "color": "magenta"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "color": "purple"
+        }
+      ]
+    },
+    "maxTurns": 19,
+    "next": {
+      "initial": "cyan"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 4,
+      "par": 7,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 74,
+    "name": "ステージ 74",
+    "board": {
+      "width": 5,
+      "height": 5
+    },
+    "obstacles": [
+      {
+        "x": 2,
+        "y": 2
+      }
+    ],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "yellow"
+      },
+      {
+        "x": 4,
+        "y": 0,
+        "color": "cyan"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "red"
+        },
+        {
+          "dx": 2,
+          "dy": 0,
+          "color": "orange"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "cyan"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "color": "green"
+        }
+      ]
+    },
+    "maxTurns": 20,
+    "next": {
+      "initial": "magenta"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 4,
+      "par": 8,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 75,
+    "name": "ステージ 75",
+    "board": {
+      "width": 5,
+      "height": 5
+    },
+    "obstacles": [
+      {
+        "x": 2,
+        "y": 2
+      }
+    ],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "cyan"
+      },
+      {
+        "x": 4,
+        "y": 0,
+        "color": "magenta"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "blue"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "purple"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "color": "magenta"
+        },
+        {
+          "dx": 2,
+          "dy": 1,
+          "color": "red"
+        }
+      ]
+    },
+    "maxTurns": 20,
+    "next": {
+      "initial": "yellow"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 4,
+      "par": 8,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 76,
+    "name": "ステージ 76",
+    "board": {
+      "width": 5,
+      "height": 5
+    },
+    "obstacles": [
+      {
+        "x": 2,
+        "y": 2
+      }
+    ],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "magenta"
+      },
+      {
+        "x": 4,
+        "y": 0,
+        "color": "yellow"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "green"
+        },
+        {
+          "dx": 2,
+          "dy": 0,
+          "color": "teal"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "cyan"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "color": "blue"
+        }
+      ]
+    },
+    "maxTurns": 20,
+    "next": {
+      "initial": "cyan"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 4,
+      "par": 8,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 77,
+    "name": "ステージ 77",
+    "board": {
+      "width": 5,
+      "height": 5
+    },
+    "obstacles": [
+      {
+        "x": 2,
+        "y": 2
+      }
+    ],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "yellow"
+      },
+      {
+        "x": 4,
+        "y": 0,
+        "color": "cyan"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "green"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "red"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "blue"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "color": "purple"
+        }
+      ]
+    },
+    "maxTurns": 21,
+    "next": {
+      "initial": "magenta"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 4,
+      "par": 9,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 78,
+    "name": "ステージ 78",
+    "board": {
+      "width": 5,
+      "height": 5
+    },
+    "obstacles": [
+      {
+        "x": 2,
+        "y": 2
+      }
+    ],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "yellow"
+      },
+      {
+        "x": 4,
+        "y": 0,
+        "color": "magenta"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "orange"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "red"
+        },
+        {
+          "dx": 2,
+          "dy": 0,
+          "color": "wine"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "color": "magenta"
+        }
+      ]
+    },
+    "maxTurns": 22,
+    "next": {
+      "initial": "yellow"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 4,
+      "par": 9,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 79,
+    "name": "ステージ 79",
+    "board": {
+      "width": 5,
+      "height": 5
+    },
+    "obstacles": [
+      {
+        "x": 2,
+        "y": 2
+      }
+    ],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "cyan"
+      },
+      {
+        "x": 4,
+        "y": 0,
+        "color": "yellow"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "green"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "chartreuse"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "color": "yellow"
+        },
+        {
+          "dx": 2,
+          "dy": 1,
+          "color": "orange"
+        }
+      ]
+    },
+    "maxTurns": 21,
+    "next": {
+      "initial": "yellow"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 4,
+      "par": 9,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 80,
+    "name": "ステージ 80",
+    "board": {
+      "width": 5,
+      "height": 5
+    },
+    "obstacles": [
+      {
+        "x": 2,
+        "y": 2
+      },
+      {
+        "x": 1,
+        "y": 3
+      }
+    ],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "yellow"
+      },
+      {
+        "x": 4,
+        "y": 0,
+        "color": "cyan"
+      },
+      {
+        "x": 2,
+        "y": 0,
+        "color": "magenta"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "spring"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "chartreuse"
+        },
+        {
+          "dx": 2,
+          "dy": 0,
+          "color": "green"
+        }
+      ]
+    },
+    "maxTurns": 22,
+    "next": {
+      "initial": "yellow"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 4,
+      "par": 9,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 81,
+    "name": "ステージ 81",
+    "board": {
+      "width": 5,
+      "height": 5
+    },
+    "obstacles": [
+      {
+        "x": 2,
+        "y": 2
+      },
+      {
+        "x": 1,
+        "y": 3
+      }
+    ],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "yellow"
+      },
+      {
+        "x": 4,
+        "y": 0,
+        "color": "yellow"
+      },
+      {
+        "x": 2,
+        "y": 0,
+        "color": "magenta"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "amber"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "orange"
+        },
+        {
+          "dx": 0,
+          "dy": 2,
+          "color": "red"
+        }
+      ]
+    },
+    "maxTurns": 21,
+    "next": {
+      "initial": "yellow"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 5,
+      "par": 9,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 82,
+    "name": "ステージ 82",
+    "board": {
+      "width": 5,
+      "height": 5
+    },
+    "obstacles": [
+      {
+        "x": 2,
+        "y": 2
+      },
+      {
+        "x": 1,
+        "y": 3
+      }
+    ],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "magenta"
+      },
+      {
+        "x": 4,
+        "y": 0,
+        "color": "yellow"
+      },
+      {
+        "x": 2,
+        "y": 0,
+        "color": "cyan"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "teal"
+        },
+        {
+          "dx": 2,
+          "dy": 0,
+          "color": "sky"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "magenta"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "color": "blue"
+        }
+      ]
+    },
+    "maxTurns": 24,
+    "next": {
+      "initial": "cyan"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 5,
+      "par": 9,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 83,
+    "name": "ステージ 83",
+    "board": {
+      "width": 5,
+      "height": 5
+    },
+    "obstacles": [
+      {
+        "x": 2,
+        "y": 2
+      },
+      {
+        "x": 1,
+        "y": 3
+      }
+    ],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "yellow"
+      },
+      {
+        "x": 4,
+        "y": 0,
+        "color": "yellow"
+      },
+      {
+        "x": 2,
+        "y": 0,
+        "color": "magenta"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "red"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "orange"
+        },
+        {
+          "dx": 0,
+          "dy": 2,
+          "color": "amber"
+        },
+        {
+          "dx": 1,
+          "dy": 2,
+          "color": "yellow"
+        }
+      ]
+    },
+    "maxTurns": 27,
+    "next": {
+      "initial": "magenta"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 5,
+      "par": 10,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 84,
+    "name": "ステージ 84",
+    "board": {
+      "width": 5,
+      "height": 5
+    },
+    "obstacles": [
+      {
+        "x": 2,
+        "y": 2
+      },
+      {
+        "x": 1,
+        "y": 3
+      }
+    ],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "cyan"
+      },
+      {
+        "x": 4,
+        "y": 0,
+        "color": "magenta"
+      },
+      {
+        "x": 2,
+        "y": 0,
+        "color": "yellow"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "cyan"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "magenta"
+        },
+        {
+          "dx": 2,
+          "dy": 0,
+          "color": "yellow"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "color": "red"
+        },
+        {
+          "dx": 1,
+          "dy": 2,
+          "color": "green"
+        }
+      ]
+    },
+    "maxTurns": 23,
+    "next": {
+      "initial": "yellow"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 5,
+      "par": 7,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 85,
+    "name": "ステージ 85",
+    "board": {
+      "width": 5,
+      "height": 5
+    },
+    "obstacles": [
+      {
+        "x": 2,
+        "y": 2
+      },
+      {
+        "x": 1,
+        "y": 3
+      }
+    ],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "magenta"
+      },
+      {
+        "x": 4,
+        "y": 0,
+        "color": "yellow"
+      },
+      {
+        "x": 2,
+        "y": 0,
+        "color": "cyan"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "amber"
+        },
+        {
+          "dx": 2,
+          "dy": 0,
+          "color": "orange"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "red"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "color": "magenta"
+        }
+      ]
+    },
+    "maxTurns": 26,
+    "next": {
+      "initial": "cyan"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 5,
+      "par": 10,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 86,
+    "name": "ステージ 86",
+    "board": {
+      "width": 5,
+      "height": 5
+    },
+    "obstacles": [
+      {
+        "x": 2,
+        "y": 2
+      },
+      {
+        "x": 1,
+        "y": 3
+      }
+    ],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "magenta"
+      },
+      {
+        "x": 4,
+        "y": 0,
+        "color": "magenta"
+      },
+      {
+        "x": 2,
+        "y": 0,
+        "color": "cyan"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "blue"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "purple"
+        },
+        {
+          "dx": 0,
+          "dy": 2,
+          "color": "indigo"
+        },
+        {
+          "dx": 1,
+          "dy": 2,
+          "color": "magenta"
+        }
+      ]
+    },
+    "maxTurns": 26,
+    "next": {
+      "initial": "magenta"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 5,
+      "par": 10,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 87,
+    "name": "ステージ 87",
+    "board": {
+      "width": 5,
+      "height": 5
+    },
+    "obstacles": [
+      {
+        "x": 2,
+        "y": 2
+      },
+      {
+        "x": 1,
+        "y": 3
+      }
+    ],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "cyan"
+      },
+      {
+        "x": 4,
+        "y": 0,
+        "color": "magenta"
+      },
+      {
+        "x": 2,
+        "y": 0,
+        "color": "yellow"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "magenta"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "cyan"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "color": "black"
+        },
+        {
+          "dx": 2,
+          "dy": 1,
+          "color": "yellow"
+        },
+        {
+          "dx": 1,
+          "dy": 2,
+          "color": "red"
+        }
+      ]
+    },
+    "maxTurns": 24,
+    "next": {
+      "initial": "yellow"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 5,
+      "par": 8,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 88,
+    "name": "ステージ 88",
+    "board": {
+      "width": 5,
+      "height": 5
+    },
+    "obstacles": [
+      {
+        "x": 2,
+        "y": 2
+      },
+      {
+        "x": 1,
+        "y": 3
+      }
+    ],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "magenta"
+      },
+      {
+        "x": 4,
+        "y": 0,
+        "color": "yellow"
+      },
+      {
+        "x": 2,
+        "y": 0,
+        "color": "cyan"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "lavender"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "green"
+        },
+        {
+          "dx": 2,
+          "dy": 0,
+          "color": "purple"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "color": "yellow"
+        }
+      ]
+    },
+    "maxTurns": 25,
+    "next": {
+      "initial": "cyan"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 5,
+      "par": 11,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 89,
+    "name": "ステージ 89",
+    "board": {
+      "width": 5,
+      "height": 5
+    },
+    "obstacles": [
+      {
+        "x": 2,
+        "y": 2
+      },
+      {
+        "x": 1,
+        "y": 3
+      }
+    ],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "magenta"
+      },
+      {
+        "x": 4,
+        "y": 0,
+        "color": "cyan"
+      },
+      {
+        "x": 2,
+        "y": 0,
+        "color": "magenta"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "wine"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "burgundy"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "color": "cyan"
+        },
+        {
+          "dx": 2,
+          "dy": 1,
+          "color": "indigo"
+        }
+      ]
+    },
+    "maxTurns": 31,
+    "next": {
+      "initial": "magenta"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 5,
+      "par": 12,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 90,
+    "name": "ステージ 90",
+    "board": {
+      "width": 5,
+      "height": 5
+    },
+    "obstacles": [
+      {
+        "x": 2,
+        "y": 2
+      },
+      {
+        "x": 1,
+        "y": 3
+      }
+    ],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "cyan"
+      },
+      {
+        "x": 4,
+        "y": 0,
+        "color": "magenta"
+      },
+      {
+        "x": 2,
+        "y": 0,
+        "color": "yellow"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "cyan"
+        },
+        {
+          "dx": 2,
+          "dy": 0,
+          "color": "green"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "magenta"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "color": "blue"
+        },
+        {
+          "dx": 0,
+          "dy": 2,
+          "color": "purple"
+        }
+      ]
+    },
+    "maxTurns": 25,
+    "next": {
+      "initial": "yellow"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 5,
+      "par": 9,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 91,
+    "name": "ステージ 91",
+    "board": {
+      "width": 5,
+      "height": 5
+    },
+    "obstacles": [
+      {
+        "x": 2,
+        "y": 2
+      },
+      {
+        "x": 1,
+        "y": 3
+      }
+    ],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "magenta"
+      },
+      {
+        "x": 4,
+        "y": 0,
+        "color": "yellow"
+      },
+      {
+        "x": 2,
+        "y": 0,
+        "color": "yellow"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "red"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "orange"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "wine"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "color": "vermillion"
+        }
+      ]
+    },
+    "maxTurns": 31,
+    "next": {
+      "initial": "magenta"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 5,
+      "par": 13,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 92,
+    "name": "ステージ 92",
+    "board": {
+      "width": 5,
+      "height": 5
+    },
+    "obstacles": [
+      {
+        "x": 2,
+        "y": 2
+      },
+      {
+        "x": 1,
+        "y": 3
+      }
+    ],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "yellow"
+      },
+      {
+        "x": 4,
+        "y": 0,
+        "color": "cyan"
+      },
+      {
+        "x": 2,
+        "y": 0,
+        "color": "magenta"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "green"
+        },
+        {
+          "dx": 2,
+          "dy": 0,
+          "color": "red"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "blue"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "color": "purple"
+        },
+        {
+          "dx": 2,
+          "dy": 1,
+          "color": "orange"
+        }
+      ]
+    },
+    "maxTurns": 30,
+    "next": {
+      "initial": "magenta"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 5,
+      "par": 12,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 93,
+    "name": "ステージ 93",
+    "board": {
+      "width": 5,
+      "height": 5
+    },
+    "obstacles": [
+      {
+        "x": 2,
+        "y": 2
+      },
+      {
+        "x": 1,
+        "y": 3
+      },
+      {
+        "x": 3,
+        "y": 3
+      }
+    ],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "cyan"
+      },
+      {
+        "x": 4,
+        "y": 0,
+        "color": "magenta"
+      },
+      {
+        "x": 2,
+        "y": 0,
+        "color": "yellow"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "magenta"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "blue"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "color": "black"
+        },
+        {
+          "dx": 2,
+          "dy": 1,
+          "color": "red"
+        },
+        {
+          "dx": 1,
+          "dy": 2,
+          "color": "yellow"
+        }
+      ]
+    },
+    "maxTurns": 27,
+    "next": {
+      "initial": "yellow"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 5,
+      "par": 9,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 94,
+    "name": "ステージ 94",
+    "board": {
+      "width": 5,
+      "height": 5
+    },
+    "obstacles": [
+      {
+        "x": 2,
+        "y": 2
+      },
+      {
+        "x": 1,
+        "y": 3
+      },
+      {
+        "x": 3,
+        "y": 3
+      }
+    ],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "magenta"
+      },
+      {
+        "x": 4,
+        "y": 0,
+        "color": "yellow"
+      },
+      {
+        "x": 2,
+        "y": 0,
+        "color": "cyan"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "teal"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "sky"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "color": "blue"
+        },
+        {
+          "dx": 2,
+          "dy": 1,
+          "color": "navy"
+        }
+      ]
+    },
+    "maxTurns": 30,
+    "next": {
+      "initial": "cyan"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 5,
+      "par": 13,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 95,
+    "name": "ステージ 95",
+    "board": {
+      "width": 5,
+      "height": 5
+    },
+    "obstacles": [
+      {
+        "x": 2,
+        "y": 2
+      },
+      {
+        "x": 1,
+        "y": 3
+      },
+      {
+        "x": 3,
+        "y": 3
+      }
+    ],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "yellow"
+      },
+      {
+        "x": 4,
+        "y": 0,
+        "color": "cyan"
+      },
+      {
+        "x": 2,
+        "y": 0,
+        "color": "magenta"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "purple"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "blue"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "olive"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "color": "brown"
+        }
+      ]
+    },
+    "maxTurns": 29,
+    "next": {
+      "initial": "magenta"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 5,
+      "par": 14,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 96,
+    "name": "ステージ 96",
+    "board": {
+      "width": 5,
+      "height": 5
+    },
+    "obstacles": [
+      {
+        "x": 2,
+        "y": 2
+      },
+      {
+        "x": 1,
+        "y": 3
+      },
+      {
+        "x": 3,
+        "y": 3
+      }
+    ],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "cyan"
+      },
+      {
+        "x": 4,
+        "y": 0,
+        "color": "magenta"
+      },
+      {
+        "x": 2,
+        "y": 0,
+        "color": "yellow"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "green"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "chartreuse"
+        },
+        {
+          "dx": 2,
+          "dy": 0,
+          "color": "violet"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "color": "yellow"
+        },
+        {
+          "dx": 1,
+          "dy": 2,
+          "color": "cyan"
+        }
+      ]
+    },
+    "maxTurns": 30,
+    "next": {
+      "initial": "yellow"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 5,
+      "par": 11,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 97,
+    "name": "ステージ 97",
+    "board": {
+      "width": 5,
+      "height": 5
+    },
+    "obstacles": [
+      {
+        "x": 2,
+        "y": 2
+      },
+      {
+        "x": 1,
+        "y": 3
+      },
+      {
+        "x": 3,
+        "y": 3
+      }
+    ],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "magenta"
+      },
+      {
+        "x": 4,
+        "y": 0,
+        "color": "yellow"
+      },
+      {
+        "x": 2,
+        "y": 0,
+        "color": "yellow"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "red"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "orange"
+        },
+        {
+          "dx": 2,
+          "dy": 0,
+          "color": "amber"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "color": "magenta"
+        },
+        {
+          "dx": 1,
+          "dy": 2,
+          "color": "wine"
+        }
+      ]
+    },
+    "maxTurns": 31,
+    "next": {
+      "initial": "magenta"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 5,
+      "par": 13,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 98,
+    "name": "ステージ 98",
+    "board": {
+      "width": 5,
+      "height": 5
+    },
+    "obstacles": [
+      {
+        "x": 2,
+        "y": 2
+      },
+      {
+        "x": 1,
+        "y": 3
+      },
+      {
+        "x": 3,
+        "y": 3
+      }
+    ],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "cyan"
+      },
+      {
+        "x": 4,
+        "y": 0,
+        "color": "cyan"
+      },
+      {
+        "x": 2,
+        "y": 0,
+        "color": "magenta"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "purple"
+        },
+        {
+          "dx": 2,
+          "dy": 0,
+          "color": "indigo"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "blue"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "color": "sky"
+        },
+        {
+          "dx": 0,
+          "dy": 2,
+          "color": "cyan"
+        }
+      ]
+    },
+    "maxTurns": 35,
+    "next": {
+      "initial": "magenta"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 5,
+      "par": 13,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 99,
+    "name": "ステージ 99",
+    "board": {
+      "width": 5,
+      "height": 5
+    },
+    "obstacles": [
+      {
+        "x": 2,
+        "y": 2
+      },
+      {
+        "x": 1,
+        "y": 3
+      },
+      {
+        "x": 3,
+        "y": 3
+      }
+    ],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "cyan"
+      },
+      {
+        "x": 4,
+        "y": 0,
+        "color": "magenta"
+      },
+      {
+        "x": 2,
+        "y": 0,
+        "color": "yellow"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "black"
+        },
+        {
+          "dx": 1,
+          "dy": 0,
+          "color": "red"
+        },
+        {
+          "dx": 2,
+          "dy": 0,
+          "color": "green"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "blue"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "color": "yellow"
+        },
+        {
+          "dx": 2,
+          "dy": 1,
+          "color": "magenta"
+        }
+      ]
+    },
+    "maxTurns": 28,
+    "next": {
+      "initial": "yellow"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 5,
+      "par": 11,
+      "isTutorial": false
+    }
+  },
+  {
+    "id": 100,
+    "name": "ステージ 100",
+    "board": {
+      "width": 5,
+      "height": 5
+    },
+    "obstacles": [
+      {
+        "x": 2,
+        "y": 2
+      },
+      {
+        "x": 1,
+        "y": 3
+      },
+      {
+        "x": 3,
+        "y": 3
+      }
+    ],
+    "initialBlocks": [
+      {
+        "x": 0,
+        "y": 0,
+        "color": "magenta"
+      },
+      {
+        "x": 4,
+        "y": 0,
+        "color": "yellow"
+      },
+      {
+        "x": 2,
+        "y": 0,
+        "color": "yellow"
+      }
+    ],
+    "pattern": {
+      "cells": [
+        {
+          "dx": 0,
+          "dy": 0,
+          "color": "orange"
+        },
+        {
+          "dx": 2,
+          "dy": 0,
+          "color": "amber"
+        },
+        {
+          "dx": 0,
+          "dy": 1,
+          "color": "red"
+        },
+        {
+          "dx": 1,
+          "dy": 1,
+          "color": "vermillion"
+        },
+        {
+          "dx": 2,
+          "dy": 1,
+          "color": "magenta"
+        }
+      ]
+    },
+    "maxTurns": 34,
+    "next": {
+      "initial": "yellow"
+    },
+    "spawn": {
+      "mode": "random"
+    },
+    "metadata": {
+      "difficulty": 5,
+      "par": 15,
+      "isTutorial": false
+    }
+  }
+]
