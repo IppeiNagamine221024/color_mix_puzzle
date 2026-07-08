@@ -56,7 +56,7 @@ export async function syncStaminaFullNotification(save: SaveData): Promise<void>
     identifier: STAMINA_FULL_NOTIFICATION_ID,
     content: {
       title: 'スタミナが全回復しました',
-      body: 'ハートが満タンです。ステージに挑戦しましょう！',
+      body: 'ステージに挑戦しましょう！',
       ...(Platform.OS === 'android' ? { channelId: ANDROID_CHANNEL_ID } : {}),
     },
     trigger: {

@@ -27,3 +27,8 @@ npm run generate-stages   # stages.json を再生成（100ステージ）
 - `assets/data/` — 色カタログ（`colors.json`）・ステージ JSON
 
 詳細は [docs/requirements.md](./docs/requirements.md) と [docs/wireframes.md](./docs/wireframes.md) を参照。
+
+## リリース・ストア審査
+
+ストア掲載文・審査メモ・年齢レーティング案は [docs/release/](./docs/release/README.md)。  
+プライバシーポリシー／利用規約／サポートの公開 HTML は [`site/`](./site/)（GitHub Pages）。

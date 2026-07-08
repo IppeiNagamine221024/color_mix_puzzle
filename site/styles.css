@@ -1,0 +1,208 @@
+:root {
+  --bg: #dbc9a8;
+  --bg-elevated: #cdb890;
+  --surface: #e8d5b5;
+  --surface-raised: #f2e6d0;
+  --border: #8b6848;
+  --border-strong: #6b4c32;
+  --text: #3d2817;
+  --text-muted: #5c4030;
+  --text-dim: #8a7058;
+  --accent: #a85c38;
+  --accent-soft: #e8d0b8;
+  --teal: #6a9080;
+  --shadow: #4a3020;
+  --max: 42rem;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif JP", Georgia, serif;
+  color: var(--text);
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 0%, rgba(196, 120, 72, 0.18), transparent 55%),
+    radial-gradient(ellipse 70% 45% at 90% 10%, rgba(106, 144, 128, 0.16), transparent 50%),
+    linear-gradient(165deg, #e4d4b8 0%, var(--bg) 45%, #d0ba96 100%);
+  line-height: 1.7;
+}
+
+a {
+  color: var(--accent);
+  text-underline-offset: 0.15em;
+}
+
+a:hover {
+  color: var(--border-strong);
+}
+
+.wrap {
+  width: min(100% - 2rem, var(--max));
+  margin-inline: auto;
+  padding: 2.5rem 0 4rem;
+}
+
+header.site {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.brand {
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.brand:hover {
+  color: var(--accent);
+}
+
+nav.site {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem 1.1rem;
+  font-size: 0.92rem;
+}
+
+nav.site a {
+  color: var(--text-muted);
+  text-decoration: none;
+}
+
+nav.site a:hover,
+nav.site a[aria-current="page"] {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.hero {
+  margin-bottom: 2rem;
+}
+
+.hero h1 {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.75rem, 4vw, 2.35rem);
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+}
+
+.hero .lead {
+  margin: 0;
+  font-size: 1.05rem;
+  color: var(--text-muted);
+}
+
+.swatches {
+  display: flex;
+  gap: 0.45rem;
+  margin: 1.25rem 0 0;
+}
+
+.swatches span {
+  width: 1.35rem;
+  height: 1.35rem;
+  border-radius: 0.25rem;
+  border: 1px solid rgba(61, 40, 23, 0.25);
+  box-shadow: 0 2px 0 rgba(74, 48, 32, 0.15);
+}
+
+.panel {
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: 0.65rem;
+  padding: 1.25rem 1.35rem;
+  margin-bottom: 1.15rem;
+  box-shadow: 0 3px 0 rgba(74, 48, 32, 0.12);
+}
+
+.panel h2 {
+  margin: 0 0 0.65rem;
+  font-size: 1.15rem;
+}
+
+.panel h3 {
+  margin: 1rem 0 0.4rem;
+  font-size: 1rem;
+}
+
+.panel p,
+.panel ul {
+  margin: 0 0 0.75rem;
+  color: var(--text-muted);
+}
+
+.panel ul {
+  padding-left: 1.25rem;
+}
+
+.panel li + li {
+  margin-top: 0.3rem;
+}
+
+.panel .note {
+  font-size: 0.88rem;
+  color: var(--text-dim);
+}
+
+.cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.65rem 1.15rem;
+  border-radius: 0.45rem;
+  border: 1px solid var(--border-strong);
+  background: var(--accent);
+  color: #faf3e8;
+  text-decoration: none;
+  font-weight: 700;
+  box-shadow: 0 2px 0 rgba(74, 48, 32, 0.25);
+}
+
+.btn:hover {
+  color: #fff;
+  filter: brightness(1.06);
+}
+
+.btn.secondary {
+  background: var(--surface);
+  color: var(--text);
+}
+
+.btn.secondary:hover {
+  color: var(--accent);
+}
+
+footer.site {
+  margin-top: 2.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+
+footer.site p {
+  margin: 0.25rem 0;
+}

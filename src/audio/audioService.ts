@@ -38,7 +38,8 @@ class AudioService {
     if (this.initialized) return;
     if (!this.initPromise) {
       this.initPromise = setAudioModeAsync({
-        playsInSilentMode: true,
+        // マナーモード（サイレント）時は BGM / SE を鳴らさない
+        playsInSilentMode: false,
         interruptionMode: 'mixWithOthers',
       }).then(() => {
         this.initialized = true;

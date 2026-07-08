@@ -1,9 +1,8 @@
-import { EnterLottieOverlay } from '@/components/lottie';
 import { STAMINA_CONSUME_MS, StaminaBar } from '@/components/StaminaBar';
 import { Theme } from '@/constants/Theme';
 import { woodButton, woodPanel, woodText, woodTile, woodTitle } from '@/constants/wood';
 import { BannerAdSlot, RewardAdButton } from '@/src/ads';
-import { UnlimitedPlayPassCard, isUnlimitedPlayActive } from '@/src/iap';
+import { hasInfinitePass, isWeeklyPassActive, skipsStaminaConsumption } from '@/src/iap';
 import { playSe } from '@/src/audio/playSe';
 import { useBgm } from '@/src/audio/useBgm';
 import { getAllStages, isTutorialStage } from '@/src/game/stages';
@@ -13,6 +12,7 @@ import {
   canStartNewStage,
   useAppStore,
 } from '@/src/stores/appStore';
+import { useLottiePlayerStore } from '@/src/stores/lottiePlayerStore';
 import { useFocusEffect, useRouter, type Href } from 'expo-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import {
@@ -32,9 +32,11 @@ const STAGE_CELL = Math.floor((Dimensions.get('window').width - 24) / COLS) - 2;
 
 export default function MainScreen() {
   const router = useRouter();
-  const { ready, save, recoveryMs, unlimitedPlayMs, hydrate, watchRewardedAd, tickRecovery, startStage } =
+  const { ready, save, recoveryMs, weeklyPlayMs, hydrate, watchRewardedAd, tickRecovery, startStage } =
     useAppStore();
-  const [enterVisible, setEnterVisible] = useState(false);
+  const showEnter = useLottiePlayerStore((s) => s.showEnter);
+  const hidePlayer = useLottiePlayerStore((s) => s.hide);
+  const lottieRequest = useLottiePlayerStore((s) => s.request);
   const [enteringStageId, setEnteringStageId] = useState<number | null>(null);
   const [consumingHeartIndex, setConsumingHeartIndex] = useState<number | null>(null);
   const enteringRef = useRef(false);
@@ -46,30 +48,37 @@ export default function MainScreen() {
 
   useFocusEffect(
     useCallback(() => {
-      setEnterVisible(false);
       pendingEntryRef.current = null;
       setEnteringStageId(null);
       setConsumingHeartIndex(null);
       enteringRef.current = false;
       tickRecovery();
       const id = setInterval(tickRecovery, 1000);
-      return () => clearInterval(id);
-    }, [tickRecovery]),
+      return () => {
+        clearInterval(id);
+        hidePlayer();
+      };
+    }, [tickRecovery, hidePlayer]),
   );
 
   useBgm('home');
 
-  const onEnterDismiss = useCallback(() => {
+  const onEnterComplete = useCallback(() => {
     const entry = pendingEntryRef.current;
-    if (!entry) return;
-    router.push(entry.href as Href);
+    pendingEntryRef.current = null;
+    enteringRef.current = false;
+    setTimeout(() => {
+      if (entry) router.push(entry.href as Href);
+    }, 100);
   }, [router]);
 
-  const showEnterLottie = useCallback((stageId: number, href: string) => {
-    pendingEntryRef.current = { href };
-    //playSe('start');
-    setEnterVisible(true);
-  }, []);
+  const showEnterLottie = useCallback(
+    (_stageId: number, href: string) => {
+      pendingEntryRef.current = { href };
+      showEnter(onEnterComplete);
+    },
+    [showEnter, onEnterComplete],
+  );
 
   const onStagePress = useCallback(
     async (stageId: number) => {
@@ -78,12 +87,15 @@ export default function MainScreen() {
       playSe('start');
       enteringRef.current = true;
 
-      if (isTutorialStage(stageId) || isUnlimitedPlayActive(save)) {
-        const ok = isUnlimitedPlayActive(save)
+      if (isTutorialStage(stageId) || skipsStaminaConsumption(save)) {
+        const ok = skipsStaminaConsumption(save)
           ? await startStage(stageId, null, true)
           : true;
         if (ok) {
-          showEnterLottie(stageId, `/game/${stageId}${isUnlimitedPlayActive(save) ? '?started=1' : ''}`);
+          showEnterLottie(
+            stageId,
+            `/game/${stageId}${skipsStaminaConsumption(save) ? '?started=1' : ''}`,
+          );
         } else {
           enteringRef.current = false;
         }
@@ -127,8 +139,11 @@ export default function MainScreen() {
 
   const stages = getAllStages();
   const rewardOk = canShowRewardButton(save);
-  const unlimitedActive = isUnlimitedPlayActive(save);
-  const isEntering = enteringStageId != null || enterVisible;
+  const infinitePass = hasInfinitePass(save);
+  const weeklyActive = isWeeklyPassActive(save);
+  const passMode = infinitePass ? 'infinite' : weeklyActive ? 'weekly' : 'none';
+  const isEntering =
+    enteringStageId != null || lottieRequest != null;
 
   return (
     <View style={styles.root}>
@@ -163,11 +178,9 @@ export default function MainScreen() {
         current={save.stamina.current}
         recoveryMs={recoveryMs}
         consumingIndex={consumingHeartIndex}
-        unlimitedPlayActive={unlimitedActive}
-        unlimitedPlayMs={unlimitedPlayMs}
+        passMode={passMode}
+        weeklyPlayMs={weeklyPlayMs}
       />
-
-      <UnlimitedPlayPassCard active={unlimitedActive} disabled={isEntering} />
 
       {rewardOk ? (
         <RewardAdButton
@@ -247,8 +260,6 @@ export default function MainScreen() {
 
       <BannerAdSlot />
       </SafeAreaView>
-
-      <EnterLottieOverlay visible={enterVisible} onDismiss={onEnterDismiss} />
     </View>
   );
 }

@@ -54,6 +54,8 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       infoPlist: {
         NSUserTrackingUsageDescription:
           'より関連性の高い広告を表示するために使用します。',
+        // 標準的な HTTPS 等のみ → ASC の輸出コンプライアンス手動回答を省略
+        ITSAppUsesNonExemptEncryption: false,
       },
     },
     android: {

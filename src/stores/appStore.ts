@@ -1,6 +1,12 @@
 import { create } from 'zustand';
 import { syncStaminaFullNotification } from '@/src/notifications/staminaNotification';
-import { grantUnlimitedPlay, isUnlimitedPlayActive, msUntilUnlimitedPlayExpires } from '@/src/iap/unlimitedPlay';
+import {
+  grantInfinitePass,
+  grantWeeklyPass,
+  msUntilWeeklyPassExpires,
+  skipsStaminaConsumption,
+  canPurchaseWeeklyPass,
+} from '@/src/iap/passes';
 import { applyRewardedAd, applyStaminaRecovery, canWatchRewardedAd, consumeStamina, msUntilNextRecovery } from '@/src/storage/stamina';
 import { loadSaveData, persistSaveData } from '@/src/storage/persistence';
 import { DEFAULT_SAVE, type SaveData, type StageProgress } from '@/src/types/save';
@@ -10,7 +16,7 @@ type AppState = {
   ready: boolean;
   save: SaveData;
   recoveryMs: number;
-  unlimitedPlayMs: number;
+  weeklyPlayMs: number;
   hydrate: () => Promise<void>;
   persist: () => Promise<void>;
   startStage: (stageId: number, progress: StageProgress | null, useStamina: boolean) => Promise<boolean>;
@@ -18,18 +24,19 @@ type AppState = {
   gameOver: () => Promise<void>;
   setStageProgress: (progress: StageProgress | null) => Promise<void>;
   watchRewardedAd: () => Promise<boolean>;
-  grantUnlimitedPlayPass: () => Promise<void>;
+  grantWeeklyPass: () => Promise<void>;
+  grantInfinitePass: () => Promise<void>;
   tickRecovery: () => void;
 };
 
 function commitStaminaSave(
-  set: (partial: Pick<AppState, 'save' | 'recoveryMs' | 'unlimitedPlayMs'>) => void,
+  set: (partial: Pick<AppState, 'save' | 'recoveryMs' | 'weeklyPlayMs'>) => void,
   save: SaveData,
 ) {
   set({
     save,
     recoveryMs: msUntilNextRecovery(save),
-    unlimitedPlayMs: msUntilUnlimitedPlayExpires(save),
+    weeklyPlayMs: msUntilWeeklyPassExpires(save),
   });
   void syncStaminaFullNotification(save);
 }
@@ -38,7 +45,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   ready: false,
   save: DEFAULT_SAVE,
   recoveryMs: 0,
-  unlimitedPlayMs: 0,
+  weeklyPlayMs: 0,
 
   hydrate: async () => {
     const loaded = await loadSaveData();
@@ -56,7 +63,7 @@ export const useAppStore = create<AppState>((set, get) => ({
 
   startStage: async (stageId, progress, useStamina) => {
     const { save } = get();
-    const skipStamina = isUnlimitedPlayActive(save);
+    const skipStamina = skipsStaminaConsumption(save);
     if (useStamina && !isTutorialStage(stageId) && !skipStamina) {
       const next = consumeStamina(save);
       if (!next) return false;
@@ -107,8 +114,15 @@ export const useAppStore = create<AppState>((set, get) => ({
     return true;
   },
 
-  grantUnlimitedPlayPass: async () => {
-    const next = grantUnlimitedPlay(get().save);
+  grantWeeklyPass: async () => {
+    if (!canPurchaseWeeklyPass(get().save)) return;
+    const next = grantWeeklyPass(get().save);
+    commitStaminaSave(set, next);
+    await get().persist();
+  },
+
+  grantInfinitePass: async () => {
+    const next = grantInfinitePass(get().save);
     commitStaminaSave(set, next);
     await get().persist();
   },
@@ -126,7 +140,7 @@ export const useAppStore = create<AppState>((set, get) => ({
     } else {
       set({
         recoveryMs: msUntilNextRecovery(save),
-        unlimitedPlayMs: msUntilUnlimitedPlayExpires(save),
+        weeklyPlayMs: msUntilWeeklyPassExpires(save),
       });
     }
   },
@@ -135,11 +149,11 @@ export const useAppStore = create<AppState>((set, get) => ({
 export function canStartNewStage(save: SaveData, stageId: number): boolean {
   if (stageId > save.unlockedStageId) return false;
   if (isTutorialStage(stageId)) return true;
-  if (isUnlimitedPlayActive(save)) return true;
+  if (skipsStaminaConsumption(save)) return true;
   return save.stamina.current > 0;
 }
 
 export function canShowRewardButton(save: SaveData): boolean {
-  if (isUnlimitedPlayActive(save)) return false;
+  if (skipsStaminaConsumption(save)) return false;
   return canWatchRewardedAd(save);
 }

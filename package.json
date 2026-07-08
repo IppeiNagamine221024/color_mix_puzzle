@@ -22,7 +22,7 @@
     "expo-status-bar": "~3.0.9",
     "expo-tracking-transparency": "~6.0.8",
     "expo-web-browser": "~15.0.11",
-    "lottie-react-native": "~7.3.1",
+    "lottie-react-native": "~7.3.8",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-native": "0.81.5",
@@ -51,7 +51,10 @@
     "test": "jest",
     "generate-stages": "node scripts/generate-stages.js",
     "generate-audio": "node scripts/generate-placeholder-audio.js",
-    "generate-lottie": "node scripts/generate-placeholder-lottie.js"
+    "generate-lottie": "node scripts/generate-placeholder-lottie.js",
+    "lottie:clear-placeholder": "node scripts/generate-placeholder-lottie.js",
+    "lottie:clear-generate": "node scripts/generate-clear-lottie.js",
+    "lottie:clear-production": "node scripts/restore-clear-production-lottie.js"
   },
   "jest": {
     "preset": "ts-jest",

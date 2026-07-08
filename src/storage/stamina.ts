@@ -12,13 +12,8 @@ export function applyStaminaRecovery(data: SaveData, now = Date.now()): SaveData
   const stamina = { ...data.stamina };
 
   if (stamina.current >= STAMINA_MAX) {
-    const elapsed = now - stamina.lastRecoveryAt;
-    if (elapsed < STAMINA_RECOVERY_MS) return data;
-    const remainder = elapsed % STAMINA_RECOVERY_MS;
-    return {
-      ...data,
-      stamina: { ...stamina, lastRecoveryAt: now - remainder },
-    };
+    // 満タン中は回復タイマーを進めない（第15.3章）
+    return data;
   }
 
   const elapsed = now - stamina.lastRecoveryAt;
@@ -89,11 +84,14 @@ export function applyRewardedAd(data: SaveData, now = Date.now()): SaveData | nu
 export function consumeStamina(data: SaveData, now = Date.now()): SaveData | null {
   const synced = applyStaminaRecovery(data, now);
   if (synced.stamina.current <= 0) return null;
+  const wasFull = synced.stamina.current >= STAMINA_MAX;
   return {
     ...synced,
     stamina: {
       ...synced.stamina,
       current: synced.stamina.current - 1,
+      // 満タンから消費したときだけ、次の1回復まで10分をゼロから計測する
+      lastRecoveryAt: wasFull ? now : synced.stamina.lastRecoveryAt,
     },
   };
 }

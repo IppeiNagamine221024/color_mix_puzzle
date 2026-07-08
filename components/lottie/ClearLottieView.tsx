@@ -1,14 +1,21 @@
 import clearAnimation from '@/assets/lottie/clear.json';
 import { animationToFileUri } from '@/src/lottie/animationToFileUri';
 import LottieView from 'lottie-react-native';
-import { forwardRef, useEffect, useImperativeHandle, useRef, useState, type ComponentProps } from 'react';
+import {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+  type ComponentProps,
+} from 'react';
 
 type Props = Omit<ComponentProps<typeof LottieView>, 'source'> & {
   playId: number;
 };
 
 export const ClearLottieView = forwardRef<LottieView, Props>(function ClearLottieView(
-  { playId, ...props },
+  { playId, onAnimationLoaded, ...props },
   ref,
 ) {
   const [uri, setUri] = useState<string | null>(null);
@@ -17,18 +24,9 @@ export const ClearLottieView = forwardRef<LottieView, Props>(function ClearLotti
 
   useEffect(() => {
     const fileName = `lottie-clear-${playId}.json`;
-    setUri(animationToFileUri(clearAnimation, fileName));
+    setUri(animationToFileUri(clearAnimation, fileName, playId));
     return () => setUri(null);
   }, [playId]);
-
-  useEffect(() => {
-    if (uri == null) return;
-    const id = setTimeout(() => {
-      lottieRef.current?.reset();
-      lottieRef.current?.play();
-    }, 16);
-    return () => clearTimeout(id);
-  }, [uri]);
 
   if (uri == null) return null;
 
@@ -37,9 +35,9 @@ export const ClearLottieView = forwardRef<LottieView, Props>(function ClearLotti
       {...props}
       ref={lottieRef}
       source={{ uri }}
-      autoPlay={false}
-      renderMode="SOFTWARE"
+      autoPlay
       cacheComposition={false}
+      onAnimationLoaded={onAnimationLoaded}
     />
   );
 });

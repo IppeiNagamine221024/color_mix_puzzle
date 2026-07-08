@@ -1,7 +1,7 @@
 import { BoardView } from '@/components/BoardView';
 import { ColorRecipeHintOverlay } from '@/components/ColorRecipeHintOverlay';
 import { GameOverOverlay } from '@/components/GameOverOverlay';
-import { ClearLottieOverlay, ExitLottieOverlay } from '@/components/lottie';
+import { ExitLottieOverlay } from '@/components/lottie';
 import { PatternView } from '@/components/PatternView';
 import { SwipeZone } from '@/components/SwipeZone';
 import { actionColors, Theme } from '@/constants/Theme';
@@ -21,6 +21,7 @@ import {
 import { findPatternMatchPositions } from '@/src/game/pattern';
 import { getStageById, isTutorialStage } from '@/src/game/stages';
 import { useAppStore } from '@/src/stores/appStore';
+import { isClearLottieActive, useLottiePlayerStore } from '@/src/stores/lottiePlayerStore';
 import type { BoardAnimation } from '@/src/types/animation';
 import type { Direction } from '@/src/types/board';
 import { COLOR_HEX, COLOR_LABELS } from '@/src/types/colors';
@@ -47,13 +48,10 @@ export default function GameScreen() {
   const stageId = Number(stageIdParam);
   const stage = getStageById(stageId);
   const { save, setStageProgress, clearStage, gameOver, startStage } = useAppStore();
-
   const [session, setSession] = useState<GameSession | null>(null);
-  const [clearPlayId, setClearPlayId] = useState(0);
-  const [clearOverlayVisible, setClearOverlayVisible] = useState(false);
+  const showClear = useLottiePlayerStore((s) => s.showClear);
+  const lottieRequest = useLottiePlayerStore((s) => s.request);
   const [exitVisible, setExitVisible] = useState(false);
-  const clearCompleteRef = useRef<(() => void) | null>(null);
-  const nextClearPlayId = useRef(1);
   const leavingRef = useRef(false);
   const pendingAfterExitRef = useRef<(() => void | Promise<void>) | null>(null);
   const [uiMode, setUiMode] = useState<UiMode>('idle');
@@ -65,6 +63,7 @@ export default function GameScreen() {
   const [animating, setAnimating] = useState(false);
   const pendingAfterAnim = useRef<(() => void | Promise<void>) | null>(null);
 
+  const clearOverlayActive = isClearLottieActive(lottieRequest);
   const isContinue = continueParam === '1';
   const staminaAlreadyPaid = startedParam === '1';
   const initialized = useRef(false);
@@ -148,15 +147,12 @@ export default function GameScreen() {
         if (next.status === 'cleared') {
           playSe('clear');
           setPatternGlow(true);
-          clearCompleteRef.current = () => {
+          showClear(() => {
             void (async () => {
               await clearStage(stageId);
-              setClearOverlayVisible(false);
               beginLeaveStage();
             })();
-          };
-          setClearPlayId(nextClearPlayId.current++);
-          setClearOverlayVisible(true);
+          });
           return;
         }
         if (next.status === 'gameover') {
@@ -180,7 +176,7 @@ export default function GameScreen() {
         await finish();
       }
     },
-    [beginLeaveStage, clearStage, gameOver, persist, router, stageId],
+    [beginLeaveStage, clearStage, gameOver, persist, showClear, stageId],
   );
 
   const onAnimationComplete = useCallback(() => {
@@ -248,7 +244,7 @@ export default function GameScreen() {
   };
 
   const onBack = () => {
-    if (leavingRef.current || exitVisible || clearOverlayVisible || animating) return;
+    if (leavingRef.current || exitVisible || clearOverlayActive || animating) return;
     const shouldPersist = session?.status === 'playing';
     beginLeaveStage(async () => {
       if (shouldPersist && session) await persist(session);
@@ -280,7 +276,7 @@ export default function GameScreen() {
         <Pressable
           style={styles.backBtn}
           onPress={onBack}
-          disabled={exitVisible || clearOverlayVisible || animating}
+          disabled={exitVisible || clearOverlayActive || animating}
         >
           <Text style={styles.back}>←</Text>
         </Pressable>
@@ -323,7 +319,7 @@ export default function GameScreen() {
 
       <SwipeZone
         style={styles.boardArea}
-        enabled={playing && uiMode === 'idle' && !animating && !exitVisible && !clearOverlayVisible}
+        enabled={playing && uiMode === 'idle' && !animating && !exitVisible && !clearOverlayActive}
         onSwipe={onSwipe}
       >
         <BoardView
@@ -363,12 +359,6 @@ export default function GameScreen() {
         visible={recipeHintVisible}
         patternCells={stage.pattern.cells}
         onClose={() => setRecipeHintVisible(false)}
-      />
-
-      <ClearLottieOverlay
-        visible={clearOverlayVisible}
-        playId={clearPlayId}
-        onComplete={() => clearCompleteRef.current?.()}
       />
 
       <ExitLottieOverlay visible={exitVisible} onDismiss={onExitDismiss} />

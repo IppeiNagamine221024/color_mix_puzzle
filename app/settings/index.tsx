@@ -5,20 +5,12 @@ import { playSe } from '@/src/audio/playSe';
 import { useSettingsStore } from '@/src/stores/settingsStore';
 import { useRouter, type Href } from 'expo-router';
 import { useCallback } from 'react';
-import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function SettingsScreen() {
   const router = useRouter();
   const { bgmVolume, seVolume, setBgmVolume, setSeVolume } = useSettingsStore();
-
-  const onPassPurchase = useCallback(() => {
-    Alert.alert(
-      '24時間遊び放題パス',
-      'スタミナ消費なしで24時間プレイできます。\n（課金機能は準備中です）',
-      [{ text: 'OK' }],
-    );
-  }, []);
 
   const onBgmChange = useCallback(
     (value: number) => {
@@ -64,10 +56,9 @@ export default function SettingsScreen() {
 
         <SettingsSection title="その他">
           <SettingsMenuRow
-            label="24時間遊び放題パスを購入"
-            onPress={onPassPurchase}
-            showChevron={false}
-            accent
+            label="遊び放題パス"
+            hint="¥100〜"
+            onPress={() => router.push('/settings/passes' as Href)}
           />
           <SettingsMenuRow
             label="プライバシーポリシー"

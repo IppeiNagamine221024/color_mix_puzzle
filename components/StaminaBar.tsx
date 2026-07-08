@@ -2,15 +2,15 @@ import { useEffect, useRef } from 'react';
 import { Animated, Easing, StyleSheet, Text, View } from 'react-native';
 import { Theme } from '@/constants/Theme';
 import { woodPanel, woodText } from '@/constants/wood';
+import { formatPassRemaining } from '@/src/iap/passes';
 import { STAMINA_MAX } from '@/src/storage/stamina';
-import { formatUnlimitedPlayRemaining } from '@/src/iap/unlimitedPlay';
 
 type Props = {
   current: number;
   recoveryMs: number;
   consumingIndex?: number | null;
-  unlimitedPlayActive?: boolean;
-  unlimitedPlayMs?: number;
+  passMode?: 'none' | 'weekly' | 'infinite';
+  weeklyPlayMs?: number;
 };
 
 const CONSUME_MS = 480;
@@ -84,16 +84,23 @@ export function StaminaBar({
   current,
   recoveryMs,
   consumingIndex = null,
-  unlimitedPlayActive = false,
-  unlimitedPlayMs = 0,
+  passMode = 'none',
+  weeklyPlayMs = 0,
 }: Props) {
-  if (unlimitedPlayActive) {
+  if (passMode === 'infinite') {
     return (
-      <View style={[styles.wrap, styles.wrapUnlimited]}>
-        <Text style={styles.unlimitedBadge}>24h 遊び放題</Text>
-        <Text style={styles.unlimitedTimer}>
-          残り {formatUnlimitedPlayRemaining(unlimitedPlayMs)}
-        </Text>
+      <View style={[styles.wrap, styles.wrapPass]}>
+        <Text style={styles.passBadge}>無限パス</Text>
+        <Text style={styles.passTimer}>スタミナ消費なし</Text>
+      </View>
+    );
+  }
+
+  if (passMode === 'weekly') {
+    return (
+      <View style={[styles.wrap, styles.wrapPass]}>
+        <Text style={styles.passBadge}>1週間パス</Text>
+        <Text style={styles.passTimer}>残り {formatPassRemaining(weeklyPlayMs)}</Text>
       </View>
     );
   }
@@ -136,18 +143,18 @@ const styles = StyleSheet.create({
     borderColor: Theme.heart,
     backgroundColor: Theme.warmSoft,
   },
-  wrapUnlimited: {
+  wrapPass: {
     borderColor: Theme.accent,
     backgroundColor: Theme.accentSoft,
     justifyContent: 'space-between',
   },
-  unlimitedBadge: {
+  passBadge: {
     ...woodText,
     fontSize: 13,
     fontWeight: '800',
     color: Theme.accent,
   },
-  unlimitedTimer: {
+  passTimer: {
     ...woodText,
     fontSize: 12,
     fontWeight: '700',

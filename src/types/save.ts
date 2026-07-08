@@ -2,7 +2,7 @@ import { STAMINA_MAX } from '@/src/storage/stamina';
 import type { ActionType, Board } from './board';
 import type { ColorId } from './colors';
 
-export const SAVE_VERSION = 3;
+export const SAVE_VERSION = 4;
 
 export type StageProgress = {
   stageId: number;
@@ -26,8 +26,10 @@ export type SaveData = {
     dailyCount: number;
     lastResetDate: string;
   };
-  /** 24時間遊び放題パスの有効期限（Unix ms）。0 は未購入 */
-  unlimitedPlayUntil: number;
+  /** 1週間遊び放題パスの有効期限（Unix ms）。0 は未購入 */
+  weeklyPlayUntil: number;
+  /** 無限パス（買い切り）を購入済みか */
+  infinitePassOwned: boolean;
 };
 
 export const DEFAULT_SAVE: SaveData = {
@@ -43,5 +45,6 @@ export const DEFAULT_SAVE: SaveData = {
     dailyCount: 0,
     lastResetDate: new Date().toISOString().slice(0, 10),
   },
-  unlimitedPlayUntil: 0,
+  weeklyPlayUntil: 0,
+  infinitePassOwned: false,
 };

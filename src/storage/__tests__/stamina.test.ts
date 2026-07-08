@@ -39,6 +39,18 @@ describe('applyStaminaRecovery', () => {
     const next = applyStaminaRecovery(full, now);
     expect(next.stamina.current).toBe(STAMINA_MAX);
   });
+
+  it('does not advance timer while at max', () => {
+    const anchor = 1_000_000;
+    const full = {
+      ...DEFAULT_SAVE,
+      stamina: { current: STAMINA_MAX, lastRecoveryAt: anchor },
+    };
+    const now = anchor + STAMINA_RECOVERY_MS / 2;
+    const next = applyStaminaRecovery(full, now);
+    expect(next.stamina.lastRecoveryAt).toBe(anchor);
+    expect(next.stamina.current).toBe(STAMINA_MAX);
+  });
 });
 
 describe('msUntilFullRecovery', () => {
@@ -114,5 +126,19 @@ describe('consumeStamina / applyRewardedAd', () => {
     expect(next!.stamina.lastRecoveryAt).toBe(anchor);
     expect(next!.stamina.current).toBe(2);
     expect(msUntilNextRecovery(next!, now)).toBe(STAMINA_RECOVERY_MS / 2);
+  });
+
+  it('starts full recovery timer when consuming from max', () => {
+    const anchor = 1_000_000;
+    const full = {
+      ...DEFAULT_SAVE,
+      stamina: { current: STAMINA_MAX, lastRecoveryAt: anchor - STAMINA_RECOVERY_MS / 2 },
+    };
+    const now = anchor;
+    const next = consumeStamina(full, now);
+    expect(next).not.toBeNull();
+    expect(next!.stamina.current).toBe(STAMINA_MAX - 1);
+    expect(next!.stamina.lastRecoveryAt).toBe(now);
+    expect(msUntilNextRecovery(next!, now)).toBe(STAMINA_RECOVERY_MS);
   });
 });

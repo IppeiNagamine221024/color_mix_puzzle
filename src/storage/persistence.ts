@@ -6,11 +6,21 @@ const STORAGE_KEY = 'iroawase_save_v1';
 
 function migrateSave(parsed: SaveData): SaveData | null {
   if (parsed.version === SAVE_VERSION) return parsed;
+  if (parsed.version === 3) {
+    const legacy = parsed as SaveData & { unlimitedPlayUntil?: number };
+    return {
+      ...parsed,
+      version: SAVE_VERSION,
+      weeklyPlayUntil: legacy.unlimitedPlayUntil ?? legacy.weeklyPlayUntil ?? 0,
+      infinitePassOwned: legacy.infinitePassOwned ?? false,
+    };
+  }
   if (parsed.version === 2) {
     return {
       ...parsed,
       version: SAVE_VERSION,
-      unlimitedPlayUntil: 0,
+      weeklyPlayUntil: 0,
+      infinitePassOwned: false,
     };
   }
   return null;

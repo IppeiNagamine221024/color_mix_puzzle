@@ -1,4 +1,5 @@
 import { Theme } from '@/constants/Theme';
+import { AppLottiePlayer } from '@/components/lottie/AppLottiePlayer';
 import { audio } from '@/src/audio/audioService';
 import { initAds } from '@/src/ads';
 import { IapProvider } from '@/src/iap';
@@ -45,6 +46,7 @@ export default function RootLayout() {
             options={{ title: 'プレイ', headerShown: false, animation: 'none' }}
           />
         </Stack>
+        <AppLottiePlayer />
       </View>
     </>
   </IapProvider>

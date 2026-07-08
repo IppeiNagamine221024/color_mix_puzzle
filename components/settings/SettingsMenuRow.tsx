@@ -8,13 +8,17 @@ type Props = {
   onPress: () => void;
   showChevron?: boolean;
   accent?: boolean;
+  hint?: string;
 };
 
-export function SettingsMenuRow({ label, onPress, showChevron = true, accent }: Props) {
+export function SettingsMenuRow({ label, onPress, showChevron = true, accent, hint }: Props) {
   return (
     <Pressable style={({ pressed }) => [styles.row, pressed && styles.pressed]} onPress={onPress}>
       <Text style={[styles.label, accent && styles.accent]}>{label}</Text>
-      {showChevron && <Text style={styles.chevron}>›</Text>}
+      <View style={styles.trailing}>
+        {hint ? <Text style={styles.hint}>{hint}</Text> : null}
+        {showChevron && <Text style={styles.chevron}>›</Text>}
+      </View>
     </Pressable>
   );
 }
@@ -65,6 +69,17 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   accent: {
+    color: Theme.accent,
+  },
+  trailing: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  hint: {
+    ...woodText,
+    fontSize: 13,
+    fontWeight: '700',
     color: Theme.accent,
   },
   chevron: {

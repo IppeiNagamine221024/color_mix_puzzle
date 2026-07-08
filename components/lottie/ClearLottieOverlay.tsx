@@ -11,10 +11,7 @@ type Props = {
   onComplete: () => void;
 };
 
-/**
- * クリア演出 — ゲーム画面内の View オーバーレイ（Expo Go 向け現行構成）。
- * iOS では enter がゴースト表示される既知バグあり → docs/lottie-ios-clear-fix.md
- */
+/** クリア演出 — ゲーム画面内オーバーレイ（exit と同階層） */
 export function ClearLottieOverlay({ visible, playId, onComplete }: Props) {
   const lottieRef = useRef<LottieView>(null);
   const finishedRef = useRef(false);
@@ -23,6 +20,7 @@ export function ClearLottieOverlay({ visible, playId, onComplete }: Props) {
   onCompleteRef.current = onComplete;
 
   const [animationDone, setAnimationDone] = useState(false);
+  const [compositionLoaded, setCompositionLoaded] = useState(false);
 
   const invokeComplete = useCallback(() => {
     if (finishedRef.current) return;
@@ -41,17 +39,27 @@ export function ClearLottieOverlay({ visible, playId, onComplete }: Props) {
       finishedRef.current = false;
       animationDoneRef.current = false;
       setAnimationDone(false);
+      setCompositionLoaded(false);
       return;
     }
     finishedRef.current = false;
     animationDoneRef.current = false;
     setAnimationDone(false);
+    setCompositionLoaded(false);
+  }, [visible, playId]);
+
+  useEffect(() => {
+    if (!visible || !compositionLoaded) return;
 
     const meta = getClearAnimationMeta();
     const durationMs = getLottieDurationFromSource(meta);
     const id = setTimeout(markAnimationDone, durationMs + 250);
     return () => clearTimeout(id);
-  }, [visible, playId, markAnimationDone]);
+  }, [visible, playId, compositionLoaded, markAnimationDone]);
+
+  const onAnimationLoaded = useCallback(() => {
+    setCompositionLoaded(true);
+  }, []);
 
   const onAnimationFinish = useCallback(
     (isCancelled: boolean) => {
@@ -66,18 +74,16 @@ export function ClearLottieOverlay({ visible, playId, onComplete }: Props) {
   }, [animationDone, invokeComplete]);
 
   useEffect(() => {
-    if (!visible) return;
-    return () => {
+    if (!visible) {
       lottieRef.current?.pause();
-    };
+    }
   }, [visible]);
 
   if (!visible) return null;
 
   return (
     <View style={styles.overlay} pointerEvents="box-none">
-      {!animationDone && (
-        <ClearLottieView
+      <ClearLottieView
           key={playId}
           playId={playId}
           ref={lottieRef}
@@ -85,9 +91,9 @@ export function ClearLottieOverlay({ visible, playId, onComplete }: Props) {
           resizeMode="cover"
           autoPlay={false}
           loop={false}
+          onAnimationLoaded={onAnimationLoaded}
           onAnimationFinish={onAnimationFinish}
         />
-      )}
 
       <Pressable
         style={StyleSheet.absoluteFill}
@@ -104,8 +110,8 @@ export function ClearLottieOverlay({ visible, playId, onComplete }: Props) {
 const styles = StyleSheet.create({
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    zIndex: 200,
-    elevation: 200,
+    zIndex: 9999,
+    elevation: 9999,
     backgroundColor: 'rgba(0,0,0,0.45)',
   },
   lottie: {
