@@ -4,7 +4,7 @@ import { Theme } from '@/constants/Theme';
 import * as WebBrowser from 'expo-web-browser';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
-const LAST_UPDATED = '2026年7月8日';
+const LAST_UPDATED = '2026年7月10日';
 
 export default function PrivacyScreen() {
   return (
@@ -36,7 +36,7 @@ export default function PrivacyScreen() {
           </Text>
           <Text style={styles.subheading}>（3）広告に関する情報</Text>
           <Text style={settingsSubContent.body}>
-            広告配信のため、Google AdMob が広告識別子や端末情報、広告の表示・クリックに関する情報を収集する場合があります。iOS では App Tracking Transparency（ATT）に基づき、追跡の許可を求める場合があります。
+            広告配信のため、Google AdMob が端末情報や広告の表示・クリックに関する情報を収集する場合があります。本アプリは非パーソナライズ広告のみを表示し、他社のアプリやサイトを横断してユーザーを追跡することはありません。
           </Text>
           <Text style={styles.subheading}>（4）通知</Text>
           <Text style={settingsSubContent.body}>

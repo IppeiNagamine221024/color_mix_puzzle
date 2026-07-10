@@ -1,5 +1,6 @@
 import { Theme } from '@/constants/Theme';
 import { woodButton } from '@/constants/wood';
+import { adRequestOptions } from '@/src/ads/adRequestOptions';
 import { bannerAdUnitId } from '@/src/ads/adUnits';
 import { showRewardedAd } from '@/src/ads/showRewardedAd';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
@@ -8,7 +9,11 @@ import { BannerAd, BannerAdSize } from 'react-native-google-mobile-ads';
 export function AdMobBannerAd() {
   return (
     <View style={styles.banner}>
-      <BannerAd unitId={bannerAdUnitId} size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} />
+      <BannerAd
+        unitId={bannerAdUnitId}
+        size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+        requestOptions={adRequestOptions}
+      />
     </View>
   );
 }

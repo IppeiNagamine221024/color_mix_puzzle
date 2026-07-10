@@ -1,3 +1,4 @@
+import { adRequestOptions } from '@/src/ads/adRequestOptions';
 import { rewardedAdUnitId } from '@/src/ads/adUnits';
 import { usesNativeModules } from '@/src/config/runtime';
 import { Alert } from 'react-native';
@@ -11,7 +12,7 @@ let rewardedAd: RewardedAd | null = null;
 
 function getRewardedAd(): RewardedAd {
   if (!rewardedAd) {
-    rewardedAd = RewardedAd.createForAdRequest(rewardedAdUnitId);
+    rewardedAd = RewardedAd.createForAdRequest(rewardedAdUnitId, adRequestOptions);
   }
   return rewardedAd;
 }

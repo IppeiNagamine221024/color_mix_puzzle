@@ -35,89 +35,118 @@ export default function MainScreen() {
   const { ready, save, recoveryMs, weeklyPlayMs, hydrate, watchRewardedAd, tickRecovery, startStage } =
     useAppStore();
   const showEnter = useLottiePlayerStore((s) => s.showEnter);
-  const hidePlayer = useLottiePlayerStore((s) => s.hide);
+  const dismissCover = useLottiePlayerStore((s) => s.dismissCover);
   const lottieRequest = useLottiePlayerStore((s) => s.request);
+  const coverActive = useLottiePlayerStore((s) => s.coverActive);
   const [enteringStageId, setEnteringStageId] = useState<number | null>(null);
   const [consumingHeartIndex, setConsumingHeartIndex] = useState<number | null>(null);
   const enteringRef = useRef(false);
   const pendingEntryRef = useRef<{ href: string } | null>(null);
+  const entryPreparedRef = useRef<Promise<boolean> | null>(null);
 
   useEffect(() => {
     hydrate();
   }, [hydrate]);
 
+  const resetEntryTransition = useCallback(() => {
+    enteringRef.current = false;
+    pendingEntryRef.current = null;
+    entryPreparedRef.current = null;
+    setEnteringStageId(null);
+    setConsumingHeartIndex(null);
+  }, []);
+
   useFocusEffect(
     useCallback(() => {
-      pendingEntryRef.current = null;
-      setEnteringStageId(null);
-      setConsumingHeartIndex(null);
-      enteringRef.current = false;
       tickRecovery();
       const id = setInterval(tickRecovery, 1000);
+
+      // 退場ホールドカバーのみ外す
+      const { coverActive, request } = useLottiePlayerStore.getState();
+      if (coverActive && request == null) {
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            dismissCover();
+          });
+        });
+      }
+
+      resetEntryTransition();
       return () => {
         clearInterval(id);
-        hidePlayer();
       };
-    }, [tickRecovery, hidePlayer]),
+    }, [dismissCover, resetEntryTransition, tickRecovery]),
   );
 
   useBgm('home');
 
-  const onEnterComplete = useCallback(() => {
+  const onEnterComplete = useCallback(async () => {
     const entry = pendingEntryRef.current;
-    pendingEntryRef.current = null;
-    enteringRef.current = false;
-    setTimeout(() => {
-      if (entry) router.push(entry.href as Href);
-    }, 100);
-  }, [router]);
+    const prepared = entryPreparedRef.current;
+    if (!entry || !prepared) {
+      resetEntryTransition();
+      dismissCover();
+      return;
+    }
 
-  const showEnterLottie = useCallback(
-    (_stageId: number, href: string) => {
+    try {
+      const ok = await prepared;
+      if (!ok) {
+        resetEntryTransition();
+        dismissCover();
+        return;
+      }
+      pendingEntryRef.current = null;
+      enteringRef.current = false;
+      entryPreparedRef.current = null;
+      router.push(entry.href as Href);
+    } catch {
+      resetEntryTransition();
+      dismissCover();
+    }
+  }, [dismissCover, resetEntryTransition, router]);
+
+  const beginEnterTransition = useCallback(
+    (href: string, prepare: () => Promise<boolean>) => {
       pendingEntryRef.current = { href };
-      showEnter(onEnterComplete);
+      enteringRef.current = true;
+      entryPreparedRef.current = prepare();
+      showEnter(() => {
+        void onEnterComplete();
+      });
     },
-    [showEnter, onEnterComplete],
+    [onEnterComplete, showEnter],
   );
 
   const onStagePress = useCallback(
-    async (stageId: number) => {
+    (stageId: number) => {
       if (enteringRef.current || !canStartNewStage(save, stageId)) return;
 
       playSe('start');
-      enteringRef.current = true;
 
-      if (isTutorialStage(stageId) || skipsStaminaConsumption(save)) {
-        const ok = skipsStaminaConsumption(save)
-          ? await startStage(stageId, null, true)
-          : true;
-        if (ok) {
-          showEnterLottie(
-            stageId,
-            `/game/${stageId}${skipsStaminaConsumption(save) ? '?started=1' : ''}`,
-          );
-        } else {
-          enteringRef.current = false;
+      const skipStamina = isTutorialStage(stageId) || skipsStaminaConsumption(save);
+      const href = isTutorialStage(stageId)
+        ? `/game/${stageId}`
+        : `/game/${stageId}?started=1`;
+
+      const prepare = async (): Promise<boolean> => {
+        if (skipStamina) {
+          if (isTutorialStage(stageId)) return true;
+          return startStage(stageId, null, true);
         }
-        return;
-      }
 
-      setEnteringStageId(stageId);
-      setConsumingHeartIndex(save.stamina.current - 1);
+        setEnteringStageId(stageId);
+        setConsumingHeartIndex(save.stamina.current - 1);
+        await new Promise((r) => setTimeout(r, STAMINA_CONSUME_MS));
+        const ok = await startStage(stageId, null, true);
+        setConsumingHeartIndex(null);
+        setEnteringStageId(null);
+        return ok;
+      };
 
-      await new Promise((r) => setTimeout(r, STAMINA_CONSUME_MS));
-
-      const ok = await startStage(stageId, null, true);
-      setConsumingHeartIndex(null);
-      setEnteringStageId(null);
-
-      if (ok) {
-        showEnterLottie(stageId, `/game/${stageId}?started=1`);
-      } else {
-        enteringRef.current = false;
-      }
+      beginEnterTransition(href, prepare);
     },
-    [save, showEnterLottie, startStage],
+    [beginEnterTransition, save, startStage],
   );
 
   const onContinue = useCallback(() => {
@@ -125,9 +154,8 @@ export default function MainScreen() {
     const p = save.stageProgress;
     if (!p) return;
     playSe('start');
-    enteringRef.current = true;
-    showEnterLottie(p.stageId, `/game/${p.stageId}?continue=1`);
-  }, [save.stageProgress, showEnterLottie]);
+    beginEnterTransition(`/game/${p.stageId}?continue=1`, async () => true);
+  }, [beginEnterTransition, save.stageProgress]);
 
   if (!ready) {
     return (
@@ -143,7 +171,7 @@ export default function MainScreen() {
   const weeklyActive = isWeeklyPassActive(save);
   const passMode = infinitePass ? 'infinite' : weeklyActive ? 'weekly' : 'none';
   const isEntering =
-    enteringStageId != null || lottieRequest != null;
+    enteringStageId != null || lottieRequest != null || coverActive;
 
   return (
     <View style={styles.root}>

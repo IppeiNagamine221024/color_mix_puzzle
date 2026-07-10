@@ -14,6 +14,11 @@ export const LOTTIE_CONFIG = {
   allowSkip: true,
   /** アニメ終了後、遷移までの余白（ms） */
   postDelayMs: 80,
+  /**
+   * 入場完了後、オーバーレイを残す時間（ms）。
+   * router.push とゲーム画面マウントの間にホームが一瞬映るのを防ぐ。
+   */
+  enterCoverHoldMs: 450,
   /** 入場・退場 Lottie の想定尺（秒）— stage_enter_exit.json と一致させる */
   enterDurationSec: 2,
 } as const;

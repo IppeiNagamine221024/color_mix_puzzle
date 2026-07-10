@@ -1,7 +1,6 @@
 import { BoardView } from '@/components/BoardView';
 import { ColorRecipeHintOverlay } from '@/components/ColorRecipeHintOverlay';
 import { GameOverOverlay } from '@/components/GameOverOverlay';
-import { ExitLottieOverlay } from '@/components/lottie';
 import { PatternView } from '@/components/PatternView';
 import { SwipeZone } from '@/components/SwipeZone';
 import { actionColors, Theme } from '@/constants/Theme';
@@ -21,11 +20,11 @@ import {
 import { findPatternMatchPositions } from '@/src/game/pattern';
 import { getStageById, isTutorialStage } from '@/src/game/stages';
 import { useAppStore } from '@/src/stores/appStore';
-import { isClearLottieActive, useLottiePlayerStore } from '@/src/stores/lottiePlayerStore';
+import { isClearLottieActive, isExitLottieActive, useLottiePlayerStore } from '@/src/stores/lottiePlayerStore';
 import type { BoardAnimation } from '@/src/types/animation';
 import type { Direction } from '@/src/types/board';
 import { COLOR_HEX, COLOR_LABELS } from '@/src/types/colors';
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter, useFocusEffect } from 'expo-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import {
     Alert,
@@ -50,8 +49,10 @@ export default function GameScreen() {
   const { save, setStageProgress, clearStage, gameOver, startStage } = useAppStore();
   const [session, setSession] = useState<GameSession | null>(null);
   const showClear = useLottiePlayerStore((s) => s.showClear);
+  const showExit = useLottiePlayerStore((s) => s.showExit);
+  const dismissCover = useLottiePlayerStore((s) => s.dismissCover);
   const lottieRequest = useLottiePlayerStore((s) => s.request);
-  const [exitVisible, setExitVisible] = useState(false);
+  const coverActive = useLottiePlayerStore((s) => s.coverActive);
   const leavingRef = useRef(false);
   const pendingAfterExitRef = useRef<(() => void | Promise<void>) | null>(null);
   const [uiMode, setUiMode] = useState<UiMode>('idle');
@@ -64,11 +65,26 @@ export default function GameScreen() {
   const pendingAfterAnim = useRef<(() => void | Promise<void>) | null>(null);
 
   const clearOverlayActive = isClearLottieActive(lottieRequest);
+  const exitOverlayActive =
+    isExitLottieActive(lottieRequest) || (coverActive && leavingRef.current);
   const isContinue = continueParam === '1';
   const staminaAlreadyPaid = startedParam === '1';
   const initialized = useRef(false);
 
   useBgm('game');
+
+  // 入場ホールドカバーのみ外す（クリア・退場オーバーレイは触らない）
+  useFocusEffect(
+    useCallback(() => {
+      const { coverActive, request } = useLottiePlayerStore.getState();
+      if (!coverActive || request != null) return;
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          dismissCover();
+        });
+      });
+    }, [dismissCover]),
+  );
 
   useEffect(() => {
     if (!stage || initialized.current) return;
@@ -125,21 +141,17 @@ export default function GameScreen() {
     if (leavingRef.current) return;
     leavingRef.current = true;
     pendingAfterExitRef.current = after ?? null;
-    setExitVisible(true);
-  }, []);
-
-  const onExitDismiss = useCallback(() => {
-    setExitVisible(false);
-    const after = pendingAfterExitRef.current;
-    pendingAfterExitRef.current = null;
-    void (async () => {
-      try {
-        await after?.();
-      } finally {
-        router.back();
-      }
-    })();
-  }, [router]);
+    showExit(() => {
+      void (async () => {
+        try {
+          await pendingAfterExitRef.current?.();
+        } finally {
+          pendingAfterExitRef.current = null;
+          router.back();
+        }
+      })();
+    });
+  }, [router, showExit]);
 
   const handleResult = useCallback(
     async (next: GameSession, animation?: BoardAnimation) => {
@@ -244,7 +256,7 @@ export default function GameScreen() {
   };
 
   const onBack = () => {
-    if (leavingRef.current || exitVisible || clearOverlayActive || animating) return;
+    if (leavingRef.current || exitOverlayActive || clearOverlayActive || animating) return;
     const shouldPersist = session?.status === 'playing';
     beginLeaveStage(async () => {
       if (shouldPersist && session) await persist(session);
@@ -252,7 +264,7 @@ export default function GameScreen() {
   };
 
   const onGameOverDismiss = () => {
-    if (leavingRef.current || exitVisible) return;
+    if (leavingRef.current || exitOverlayActive) return;
     beginLeaveStage();
   };
 
@@ -276,7 +288,7 @@ export default function GameScreen() {
         <Pressable
           style={styles.backBtn}
           onPress={onBack}
-          disabled={exitVisible || clearOverlayActive || animating}
+          disabled={exitOverlayActive || clearOverlayActive || animating}
         >
           <Text style={styles.back}>←</Text>
         </Pressable>
@@ -319,7 +331,7 @@ export default function GameScreen() {
 
       <SwipeZone
         style={styles.boardArea}
-        enabled={playing && uiMode === 'idle' && !animating && !exitVisible && !clearOverlayActive}
+        enabled={playing && uiMode === 'idle' && !animating && !exitOverlayActive && !clearOverlayActive}
         onSwipe={onSwipe}
       >
         <BoardView
@@ -360,8 +372,6 @@ export default function GameScreen() {
         patternCells={stage.pattern.cells}
         onClose={() => setRecipeHintVisible(false)}
       />
-
-      <ExitLottieOverlay visible={exitVisible} onDismiss={onExitDismiss} />
     </View>
   );
 }

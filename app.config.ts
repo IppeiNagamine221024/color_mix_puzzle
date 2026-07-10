@@ -52,8 +52,6 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       buildNumber: '1',
       supportsTablet: true,
       infoPlist: {
-        NSUserTrackingUsageDescription:
-          'より関連性の高い広告を表示するために使用します。',
         // 標準的な HTTPS 等のみ → ASC の輸出コンプライアンス手動回答を省略
         ITSAppUsesNonExemptEncryption: false,
       },
@@ -106,7 +104,6 @@ export default ({ config }: ConfigContext): ExpoConfig => {
           },
         },
       ],
-      'expo-tracking-transparency',
       'expo-iap',
     ],
     experiments: {

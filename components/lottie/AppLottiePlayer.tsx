@@ -1,8 +1,9 @@
 /**
- * 入場・クリア演出 — _layout にマウントする単一 LottieView。
+ * 入場・退場・クリア演出 — _layout にマウントする単一 LottieView。
  * @see docs/lottie-ios-clear-fix.md
  */
 import { ContinueHint } from '@/components/lottie/ContinueHint';
+import { EnterLottieView } from '@/components/lottie/EnterLottieView';
 import { Theme } from '@/constants/Theme';
 import { woodText } from '@/constants/wood';
 import {
@@ -21,8 +22,13 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 type LottieSourceProp = LottieViewProps['source'];
 
+const ENTER_EXIT_SOURCE = getLottieSource('enter') as { op?: number };
+const ENTER_EXIT_TOTAL_FRAMES =
+  typeof ENTER_EXIT_SOURCE.op === 'number' ? Math.max(1, ENTER_EXIT_SOURCE.op) : 60;
+
 export function AppLottiePlayer() {
   const request = useLottiePlayerStore((s) => s.request);
+  const coverActive = useLottiePlayerStore((s) => s.coverActive);
   const hide = useLottiePlayerStore((s) => s.hide);
 
   const lottieRef = useRef<LottieView>(null);
@@ -58,7 +64,7 @@ export function AppLottiePlayer() {
 
   const source = useMemo((): LottieSourceProp | null => {
     if (!request) return null;
-    if (request.kind === 'enter') {
+    if (request.kind === 'enter' || request.kind === 'exit') {
       return getLottieSource('enter');
     }
     return clearUri ? { uri: clearUri } : null;
@@ -68,9 +74,24 @@ export function AppLottiePlayer() {
     if (finishedRef.current) return;
     finishedRef.current = true;
     const cb = onCompleteRef.current;
+    const currentKind = request?.kind;
+
+    if (currentKind === 'enter' || currentKind === 'exit') {
+      // 遷移を先に実行し、単色カバーは先画面の描画まで残す
+      hide();
+      cb?.();
+      return;
+    }
+
+    if (currentKind === 'clear') {
+      // cb 内で showExit が新しい request をセットする
+      cb?.();
+      return;
+    }
+
     hide();
     setTimeout(() => cb?.(), LOTTIE_CONFIG.postDelayMs);
-  }, [hide]);
+  }, [hide, request?.kind]);
 
   const markAnimationDone = useCallback(() => {
     if (animationDoneRef.current) return;
@@ -96,12 +117,29 @@ export function AppLottiePlayer() {
   }, [request, instanceId]);
 
   useEffect(() => {
-    if (!request || !compositionLoaded) return;
+    if (!request || request.kind === 'exit' || !compositionLoaded) return;
 
     const durationMs = getLottieDurationMs(request.kind);
     const id = setTimeout(markAnimationDone, durationMs + 250);
     return () => clearTimeout(id);
   }, [request, instanceId, compositionLoaded, markAnimationDone]);
+
+  useEffect(() => {
+    if (!request || request.kind !== 'exit') return;
+
+    const durationMs = getLottieDurationMs('exit');
+    const playId = setTimeout(() => {
+      lottieRef.current?.reset();
+      lottieRef.current?.play(ENTER_EXIT_TOTAL_FRAMES, 0);
+    }, 16);
+    const doneId = setTimeout(markAnimationDone, durationMs + 250);
+
+    return () => {
+      clearTimeout(playId);
+      clearTimeout(doneId);
+      lottieRef.current?.pause();
+    };
+  }, [request, instanceId, markAnimationDone]);
 
   const onAnimationLoaded = useCallback(() => {
     setCompositionLoaded(true);
@@ -129,40 +167,60 @@ export function AppLottiePlayer() {
     }
   }, [request]);
 
-  if (!request || source == null) return null;
+  if (!request && !coverActive) return null;
 
   const overlayBackground =
-    overlayMode === 'transparent' ? 'rgba(0,0,0,0.45)' : Theme.bg;
+    !request || overlayMode === 'fullscreen' ? Theme.bg : 'rgba(0,0,0,0.45)';
 
   return (
     <View style={[styles.overlay, { backgroundColor: overlayBackground }]} pointerEvents="box-none">
-      <LottieView
-        key={`${kind}-${instanceId}`}
-        ref={lottieRef}
-        source={source}
-        style={styles.lottie}
-        resizeMode="cover"
-        autoPlay
-        loop={false}
-        cacheComposition={false}
-        onAnimationLoaded={onAnimationLoaded}
-        onAnimationFinish={onAnimationFinish}
-      />
+      {source != null &&
+        (kind === 'enter' || kind === 'exit' ? (
+          <EnterLottieView
+            key={`${kind}-${instanceId}`}
+            ref={lottieRef}
+            style={styles.lottie}
+            resizeMode="cover"
+            autoPlay={kind === 'enter'}
+            loop={false}
+            onAnimationLoaded={onAnimationLoaded}
+            onAnimationFinish={onAnimationFinish}
+          />
+        ) : (
+          <LottieView
+            key={`${kind}-${instanceId}`}
+            ref={lottieRef}
+            source={source}
+            style={styles.lottie}
+            resizeMode="cover"
+            autoPlay
+            loop={false}
+            cacheComposition={false}
+            onAnimationLoaded={onAnimationLoaded}
+            onAnimationFinish={onAnimationFinish}
+          />
+        ))}
 
-      <Pressable
-        style={StyleSheet.absoluteFill}
-        onPress={onPress}
-        accessibilityRole="button"
-        accessibilityLabel={tapAfterAnimation && animationDone ? 'タップで続ける' : 'タップでスキップ'}
-      />
+      {request != null && (
+        <>
+          <Pressable
+            style={StyleSheet.absoluteFill}
+            onPress={onPress}
+            accessibilityRole="button"
+            accessibilityLabel={
+              tapAfterAnimation && animationDone ? 'タップで続ける' : 'タップでスキップ'
+            }
+          />
 
-      {tapAfterAnimation && animationDone ? (
-        <ContinueHint text="タップで続ける" />
-      ) : !tapAfterAnimation ? (
-        <Text style={styles.skipHint} pointerEvents="none">
-          タップでスキップ
-        </Text>
-      ) : null}
+          {tapAfterAnimation && animationDone ? (
+            <ContinueHint text="タップで続ける" />
+          ) : !tapAfterAnimation ? (
+            <Text style={styles.skipHint} pointerEvents="none">
+              タップでスキップ
+            </Text>
+          ) : null}
+        </>
+      )}
     </View>
   );
 }
