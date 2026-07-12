@@ -41,4 +41,8 @@ yarn-error.*
 /ios
 /android
 
+# EAS credentials export (ios-build-without-eas)
+credentials/
+credentials.json
+
 /docs/release

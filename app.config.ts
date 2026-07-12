@@ -41,7 +41,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     ...config,
     name: 'Color Order',
     slug: 'color-order',
-    version: '1.0.0',
+    version: '1.0.1',
     orientation: 'portrait',
     icon: './assets/images/icon.png',
     scheme: 'colororder',
@@ -49,7 +49,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     owner: 'wippeipy221024',
     ios: {
       bundleIdentifier: APP_BUNDLE_ID,
-      buildNumber: '1',
+      buildNumber: '2',
       supportsTablet: true,
       infoPlist: {
         // 標準的な HTTPS 等のみ → ASC の輸出コンプライアンス手動回答を省略
