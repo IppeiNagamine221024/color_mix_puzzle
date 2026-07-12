@@ -87,6 +87,35 @@ jobs:
           cd ios
           pod install
 
+      # xcodebuild のコマンドラインで PROVISIONING_PROFILE_SPECIFIER を渡すと
+      # CocoaPods の全ターゲットにも適用されて失敗するため、アプリターゲットのみ設定する。
+      - name: Configure code signing (app target only)
+        env:
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          PROVISIONING_PROFILE_NAME: ${{ secrets.PROVISIONING_PROFILE_NAME }}
+          SCHEME: ${{ steps.xcode.outputs.scheme }}
+        run: |
+          gem install xcodeproj --no-document
+          ruby <<'RUBY'
+          require 'xcodeproj'
+
+          scheme = ENV.fetch('SCHEME')
+          project_path = File.join('ios', "#{scheme}.xcodeproj")
+          project = Xcodeproj::Project.open(project_path)
+          app_target = project.targets.find { |t| t.product_type == 'com.apple.product-type.application' }
+          abort('Application target not found') unless app_target
+
+          app_target.build_configurations.each do |config|
+            config.build_settings['CODE_SIGN_STYLE'] = 'Manual'
+            config.build_settings['DEVELOPMENT_TEAM'] = ENV.fetch('APPLE_TEAM_ID')
+            config.build_settings['CODE_SIGN_IDENTITY[sdk=iphoneos*]'] = 'Apple Distribution'
+            config.build_settings['PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]'] = ENV.fetch('PROVISIONING_PROFILE_NAME')
+          end
+
+          project.save
+          puts "Configured manual signing for target: #{app_target.name}"
+          RUBY
+
       - name: Build archive
         run: |
           cd ios
@@ -96,11 +125,7 @@ jobs:
             -configuration Release \
             -archivePath "$RUNNER_TEMP/ColorOrder.xcarchive" \
             -sdk iphoneos \
-            archive \
-            CODE_SIGN_STYLE=Manual \
-            PROVISIONING_PROFILE_SPECIFIER="${{ secrets.PROVISIONING_PROFILE_NAME }}" \
-            CODE_SIGN_IDENTITY="Apple Distribution" \
-            DEVELOPMENT_TEAM="${{ secrets.APPLE_TEAM_ID }}"
+            archive
 
       - name: Export IPA
         env:

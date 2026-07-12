@@ -220,6 +220,18 @@ npx eas submit --platform ios --path ./build-output/ColorOrder.ipa
 - `BUNDLE_ID`（`com.wippeipy221024.colororder`）とプロファイルの App ID が一致しているか確認
 - 証明書の有効期限切れの場合は `eas credentials` で再発行
 
+### `does not support provisioning profiles`（CocoaPods ターゲット）
+
+ログ例:
+
+```text
+Google-Mobile-Ads-SDK does not support provisioning profiles, but provisioning profile ... has been manually specified.
+```
+
+**原因:** `xcodebuild` のコマンドライン引数で `PROVISIONING_PROFILE_SPECIFIER` を渡すと、メインアプリだけでなく **Pods 内のライブラリターゲットにも** プロファイルが適用されてしまいます。ライブラリはプロビジョニングプロファイルを持てないため失敗します。
+
+**解決:** ワークフローでは `Configure code signing (app target only)` ステップで **ColorOrder アプリターゲットだけ** に手動署名を設定し、`xcodebuild archive` には署名オプションを渡しません（`.github/workflows/ios-build.yml` 参照）。
+
 ### AdMob がテスト広告のまま
 
 GitHub Secrets の `EXPO_PUBLIC_`* と `ADMOB_IOS_APP_ID` が未設定だと、ビルド時にテスト ID が埋め込まれます。Secret を確認して再ビルドしてください。
