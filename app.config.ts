@@ -49,7 +49,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     owner: 'wippeipy221024',
     ios: {
       bundleIdentifier: APP_BUNDLE_ID,
-      buildNumber: '18',
+      buildNumber: '19',
       supportsTablet: true,
       infoPlist: {
         // 標準的な HTTPS 等のみ → ASC の輸出コンプライアンス手動回答を省略
