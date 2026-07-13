@@ -16,7 +16,7 @@ type Props = {
   visible: boolean;
   stageId: number;
   imageUri: string | null;
-  onDismiss: () => void;
+  onClose: () => void;
 };
 
 const SHARE_TARGETS: { id: ShareTarget; label: string }[] = [
@@ -25,7 +25,7 @@ const SHARE_TARGETS: { id: ShareTarget; label: string }[] = [
   { id: 'line', label: 'LINE' },
 ];
 
-export function ClearShareOverlay({ visible, stageId, imageUri, onDismiss }: Props) {
+export function ClearShareOverlay({ visible, stageId, imageUri, onClose }: Props) {
   const [sharing, setSharing] = useState<ShareTarget | null>(null);
 
   const onShare = useCallback(
@@ -42,18 +42,30 @@ export function ClearShareOverlay({ visible, stageId, imageUri, onDismiss }: Pro
     [imageUri, sharing, stageId],
   );
 
-  const onSkip = useCallback(() => {
+  const handleClose = useCallback(() => {
     if (sharing) return;
     playSe('uiTap');
-    onDismiss();
-  }, [onDismiss, sharing]);
+    onClose();
+  }, [onClose, sharing]);
 
   if (!visible) return null;
 
   return (
     <View style={styles.overlay} pointerEvents="box-none">
       <View style={styles.card}>
-        <Text style={styles.title}>クリアおめでとう！</Text>
+        <View style={styles.header}>
+          <Text style={styles.title}>SNSでシェア</Text>
+          <Pressable
+            style={styles.closeBtn}
+            onPress={handleClose}
+            disabled={sharing != null}
+            accessibilityRole="button"
+            accessibilityLabel="閉じる"
+            hitSlop={8}
+          >
+            <Text style={styles.closeText}>×</Text>
+          </Pressable>
+        </View>
         <Text style={styles.subtitle}>ステージ {stageId} をシェアしよう</Text>
 
         {imageUri ? (
@@ -86,13 +98,13 @@ export function ClearShareOverlay({ visible, stageId, imageUri, onDismiss }: Pro
         </View>
 
         <Pressable
-          style={styles.skipBtn}
-          onPress={onSkip}
+          style={styles.closeLink}
+          onPress={handleClose}
           disabled={sharing != null}
           accessibilityRole="button"
-          accessibilityLabel="スキップ"
+          accessibilityLabel="閉じる"
         >
-          <Text style={styles.skipText}>スキップ</Text>
+          <Text style={styles.closeLinkText}>閉じる</Text>
         </Pressable>
       </View>
     </View>
@@ -102,8 +114,8 @@ export function ClearShareOverlay({ visible, stageId, imageUri, onDismiss }: Pro
 const styles = StyleSheet.create({
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    zIndex: 9998,
-    elevation: 9998,
+    zIndex: 20,
+    elevation: 20,
     backgroundColor: 'rgba(0,0,0,0.55)',
     alignItems: 'center',
     justifyContent: 'center',
@@ -119,12 +131,32 @@ const styles = StyleSheet.create({
     padding: 16,
     gap: 12,
   },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   title: {
     ...woodTitle,
+    flex: 1,
     fontSize: 18,
     fontWeight: '700',
     textAlign: 'center',
     color: Theme.text,
+    paddingLeft: 28,
+  },
+  closeBtn: {
+    width: 28,
+    height: 28,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  closeText: {
+    ...woodText,
+    fontSize: 22,
+    fontWeight: '700',
+    color: Theme.textDim,
+    lineHeight: 24,
   },
   subtitle: {
     ...woodText,
@@ -162,11 +194,11 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: Theme.text,
   },
-  skipBtn: {
+  closeLink: {
     alignItems: 'center',
     paddingVertical: 10,
   },
-  skipText: {
+  closeLinkText: {
     ...woodText,
     fontSize: 14,
     color: Theme.textDim,

@@ -1,4 +1,3 @@
-import { ClearShareOverlay } from '@/components/share';
 import { BoardView } from '@/components/BoardView';
 import { ColorRecipeHintOverlay } from '@/components/ColorRecipeHintOverlay';
 import { GameOverOverlay } from '@/components/GameOverOverlay';
@@ -21,6 +20,7 @@ import {
 import { findPatternMatchPositions } from '@/src/game/pattern';
 import { getStageById, isTutorialStage } from '@/src/game/stages';
 import { useAppStore } from '@/src/stores/appStore';
+import { useClearShareStore } from '@/src/stores/clearShareStore';
 import { isClearLottieActive, isExitLottieActive, useLottiePlayerStore } from '@/src/stores/lottiePlayerStore';
 import type { BoardAnimation } from '@/src/types/animation';
 import type { Direction } from '@/src/types/board';
@@ -53,13 +53,12 @@ export default function GameScreen() {
   const showClear = useLottiePlayerStore((s) => s.showClear);
   const showExit = useLottiePlayerStore((s) => s.showExit);
   const dismissCover = useLottiePlayerStore((s) => s.dismissCover);
+  const prepareClearShare = useClearShareStore((s) => s.prepare);
   const lottieRequest = useLottiePlayerStore((s) => s.request);
   const coverActive = useLottiePlayerStore((s) => s.coverActive);
   const leavingRef = useRef(false);
   const captureRef = useRef<ViewShot>(null);
   const pendingAfterExitRef = useRef<(() => void | Promise<void>) | null>(null);
-  const [shareVisible, setShareVisible] = useState(false);
-  const [shareImageUri, setShareImageUri] = useState<string | null>(null);
   const [uiMode, setUiMode] = useState<UiMode>('idle');
   const [selection, setSelection] = useState<{ x: number; y: number }[]>([]);
   const [patternGlow, setPatternGlow] = useState(false);
@@ -70,7 +69,6 @@ export default function GameScreen() {
   const pendingAfterAnim = useRef<(() => void | Promise<void>) | null>(null);
 
   const clearOverlayActive = isClearLottieActive(lottieRequest);
-  const shareOverlayActive = shareVisible;
   const exitOverlayActive =
     isExitLottieActive(lottieRequest) || (coverActive && leavingRef.current);
   const isContinue = continueParam === '1';
@@ -159,24 +157,18 @@ export default function GameScreen() {
     });
   }, [router, showExit]);
 
-  const openShareAfterClear = useCallback(async () => {
+  const prepareShareThenClear = useCallback(async () => {
     await new Promise<void>((resolve) => {
       requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
     });
+    let imageUri: string | null = null;
     try {
-      const uri = await captureRef.current?.capture?.();
-      setShareImageUri(uri ?? null);
+      imageUri = (await captureRef.current?.capture?.()) ?? null;
     } catch {
-      setShareImageUri(null);
+      imageUri = null;
     }
-    setShareVisible(true);
-  }, []);
-
-  const onShareDismiss = useCallback(() => {
-    setShareVisible(false);
-    setShareImageUri(null);
-    beginLeaveStage();
-  }, [beginLeaveStage]);
+    prepareClearShare(stageId, imageUri);
+  }, [prepareClearShare, stageId]);
 
   const handleResult = useCallback(
     async (next: GameSession, animation?: BoardAnimation) => {
@@ -184,10 +176,11 @@ export default function GameScreen() {
         if (next.status === 'cleared') {
           playSe('clear');
           setPatternGlow(true);
+          await prepareShareThenClear();
           showClear(() => {
             void (async () => {
               await clearStage(stageId);
-              await openShareAfterClear();
+              beginLeaveStage();
             })();
           });
           return;
@@ -213,7 +206,7 @@ export default function GameScreen() {
         await finish();
       }
     },
-    [beginLeaveStage, clearStage, gameOver, openShareAfterClear, persist, showClear, stageId],
+    [beginLeaveStage, clearStage, gameOver, persist, prepareShareThenClear, showClear, stageId],
   );
 
   const onAnimationComplete = useCallback(() => {
@@ -281,7 +274,7 @@ export default function GameScreen() {
   };
 
   const onBack = () => {
-    if (leavingRef.current || exitOverlayActive || clearOverlayActive || shareOverlayActive || animating) return;
+    if (leavingRef.current || exitOverlayActive || clearOverlayActive || animating) return;
     const shouldPersist = session?.status === 'playing';
     beginLeaveStage(async () => {
       if (shouldPersist && session) await persist(session);
@@ -314,7 +307,7 @@ export default function GameScreen() {
         <Pressable
           style={styles.backBtn}
           onPress={onBack}
-          disabled={exitOverlayActive || clearOverlayActive || shareOverlayActive || animating}
+          disabled={exitOverlayActive || clearOverlayActive || animating}
         >
           <Text style={styles.back}>←</Text>
         </Pressable>
@@ -357,7 +350,7 @@ export default function GameScreen() {
 
       <SwipeZone
         style={styles.boardArea}
-        enabled={playing && uiMode === 'idle' && !animating && !exitOverlayActive && !clearOverlayActive && !shareOverlayActive}
+        enabled={playing && uiMode === 'idle' && !animating && !exitOverlayActive && !clearOverlayActive}
         onSwipe={onSwipe}
       >
         <BoardView
@@ -398,13 +391,6 @@ export default function GameScreen() {
         patternCells={stage.pattern.cells}
         onClose={() => setRecipeHintVisible(false)}
       />
-
-      <ClearShareOverlay
-        visible={shareVisible}
-        stageId={stageId}
-        imageUri={shareImageUri}
-        onDismiss={onShareDismiss}
-      />
     </View>
     </ViewShot>
   );
@@ -429,6 +415,7 @@ function ActionButton({
       style={[
         styles.actionBtn,
         woodButton(active ? colors.light : colors.bg, false),
+        styles.actionBorderReserve,
         active && styles.actionActive,
         disabled && styles.actionDisabled,
       ]}
@@ -436,9 +423,7 @@ function ActionButton({
       disabled={disabled}
       accessibilityState={{ selected: active }}
     >
-      <Text style={[styles.actionText, active && styles.actionTextActive]}>
-        {label}
-      </Text>
+      <Text style={[styles.actionText, active && styles.actionTextActive]}>{label}</Text>
     </Pressable>
   );
 }
@@ -569,21 +554,22 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     alignItems: 'center',
   },
-  actionActive: {
+  /** borderWidth を常時確保し、選択時のサイズ変化で盤面が動かないようにする */
+  actionBorderReserve: {
     borderWidth: 3,
+    borderColor: 'transparent',
+  },
+  actionActive: {
     borderColor: '#fff',
-    transform: [{ scale: 1.04 }],
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.35,
-    shadowRadius: 8,
-    elevation: 8,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.28,
+    shadowRadius: 4,
+    elevation: 6,
   },
   actionDisabled: { opacity: 0.4 },
   actionText: { color: '#fff', fontWeight: '700', fontSize: 15 },
   actionTextActive: {
-    fontSize: 16,
-    letterSpacing: 0.5,
     textShadowColor: 'rgba(0,0,0,0.35)',
     textShadowOffset: { width: 0, height: 1 },
     textShadowRadius: 2,

@@ -4,8 +4,9 @@
  */
 import { ContinueHint } from '@/components/lottie/ContinueHint';
 import { EnterLottieView } from '@/components/lottie/EnterLottieView';
+import { ClearShareOverlay } from '@/components/share';
 import { Theme } from '@/constants/Theme';
-import { woodText } from '@/constants/wood';
+import { woodButton, woodText } from '@/constants/wood';
 import {
   getLottieCompleteOn,
   getLottieDurationMs,
@@ -14,11 +15,14 @@ import {
   LOTTIE_CONFIG,
 } from '@/src/lottie/catalog';
 import { animationToFileUri } from '@/src/lottie/animationToFileUri';
+import { playSe } from '@/src/audio/playSe';
+import { useClearShareStore } from '@/src/stores/clearShareStore';
 import { useLottiePlayerStore } from '@/src/stores/lottiePlayerStore';
 import type { LottieTransitionId } from '@/src/lottie/types';
 import LottieView, { type LottieViewProps } from 'lottie-react-native';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type LottieSourceProp = LottieViewProps['source'];
 
@@ -30,6 +34,10 @@ export function AppLottiePlayer() {
   const request = useLottiePlayerStore((s) => s.request);
   const coverActive = useLottiePlayerStore((s) => s.coverActive);
   const hide = useLottiePlayerStore((s) => s.hide);
+  const shareStageId = useClearShareStore((s) => s.stageId);
+  const shareImageUri = useClearShareStore((s) => s.imageUri);
+  const clearSharePayload = useClearShareStore((s) => s.clear);
+  const insets = useSafeAreaInsets();
 
   const lottieRef = useRef<LottieView>(null);
   const finishedRef = useRef(false);
@@ -39,11 +47,14 @@ export function AppLottiePlayer() {
   const [clearUri, setClearUri] = useState<string | null>(null);
   const [animationDone, setAnimationDone] = useState(false);
   const [compositionLoaded, setCompositionLoaded] = useState(false);
+  const [shareSheetOpen, setShareSheetOpen] = useState(false);
 
   const kind: LottieTransitionId = request?.kind ?? 'enter';
   const instanceId = request?.instanceId ?? 0;
   const tapAfterAnimation = request ? getLottieCompleteOn(kind) === 'tapAfterAnimation' : false;
   const overlayMode = request ? getLottieOverlayMode(kind) : 'fullscreen';
+  const showClearShareEntry =
+    request?.kind === 'clear' && animationDone && !shareSheetOpen && shareStageId != null;
 
   onCompleteRef.current = request?.onComplete ?? null;
 
@@ -59,6 +70,7 @@ export function AppLottiePlayer() {
   useEffect(() => {
     if (!request || request.kind !== 'clear') {
       setClearUri(null);
+      setShareSheetOpen(false);
       return;
     }
 
@@ -86,7 +98,6 @@ export function AppLottiePlayer() {
     const currentKind = request?.kind;
 
     if (currentKind === 'enter' || currentKind === 'exit') {
-      // スキップ時に途中フレームが残ると次回 enter がずれて再生されるため先にリセット
       resetPlayerProgress();
       hide();
       cb?.();
@@ -94,14 +105,16 @@ export function AppLottiePlayer() {
     }
 
     if (currentKind === 'clear') {
-      // cb 内で showExit が新しい request をセットする
+      setShareSheetOpen(false);
+      clearSharePayload();
+      hide();
       cb?.();
       return;
     }
 
     hide();
     setTimeout(() => cb?.(), LOTTIE_CONFIG.postDelayMs);
-  }, [hide, request?.kind, resetPlayerProgress]);
+  }, [clearSharePayload, hide, request?.kind, resetPlayerProgress]);
 
   const markAnimationDone = useCallback(() => {
     if (animationDoneRef.current) return;
@@ -118,6 +131,7 @@ export function AppLottiePlayer() {
       animationDoneRef.current = false;
       setAnimationDone(false);
       setCompositionLoaded(false);
+      setShareSheetOpen(false);
       resetPlayerProgress();
       return;
     }
@@ -125,6 +139,7 @@ export function AppLottiePlayer() {
     animationDoneRef.current = false;
     setAnimationDone(false);
     setCompositionLoaded(false);
+    setShareSheetOpen(false);
   }, [request, instanceId, resetPlayerProgress]);
 
   useEffect(() => {
@@ -135,7 +150,6 @@ export function AppLottiePlayer() {
     return () => clearTimeout(id);
   }, [request, instanceId, compositionLoaded, markAnimationDone]);
 
-  // enter / exit ともに明示再生（autoPlay だとスキップ後の途中再開が起きやすい）
   useEffect(() => {
     if (!request || (request.kind !== 'enter' && request.kind !== 'exit')) return;
 
@@ -170,12 +184,18 @@ export function AppLottiePlayer() {
   );
 
   const onPress = useCallback(() => {
+    if (shareSheetOpen) return;
     if (tapAfterAnimation) {
       if (animationDone) invokeComplete();
       return;
     }
     invokeComplete();
-  }, [animationDone, invokeComplete, tapAfterAnimation]);
+  }, [animationDone, invokeComplete, shareSheetOpen, tapAfterAnimation]);
+
+  const openShareSheet = useCallback(() => {
+    playSe('uiTap');
+    setShareSheetOpen(true);
+  }, []);
 
   if (!request && !coverActive) return null;
 
@@ -229,6 +249,26 @@ export function AppLottiePlayer() {
               タップでスキップ
             </Text>
           ) : null}
+
+          {showClearShareEntry ? (
+            <Pressable
+              style={[styles.shareEntryBtn, { top: insets.top + 12 }]}
+              onPress={openShareSheet}
+              accessibilityRole="button"
+              accessibilityLabel="SNSでシェア"
+            >
+              <Text style={styles.shareEntryText}>SNSでシェア</Text>
+            </Pressable>
+          ) : null}
+
+          {shareSheetOpen && shareStageId != null ? (
+            <ClearShareOverlay
+              visible
+              stageId={shareStageId}
+              imageUri={shareImageUri}
+              onClose={() => setShareSheetOpen(false)}
+            />
+          ) : null}
         </>
       )}
     </View>
@@ -254,5 +294,20 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: Theme.textDim,
     opacity: 0.85,
+  },
+  shareEntryBtn: {
+    position: 'absolute',
+    right: 14,
+    zIndex: 10,
+    elevation: 10,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    ...woodButton(Theme.surfaceRaised),
+  },
+  shareEntryText: {
+    ...woodText,
+    fontSize: 13,
+    fontWeight: '700',
+    color: Theme.accent,
   },
 });
