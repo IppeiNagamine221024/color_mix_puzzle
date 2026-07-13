@@ -64,11 +64,8 @@ export default ({ config }: ConfigContext): ExpoConfig => {
         foregroundImage: './assets/images/android-icon-foreground.png',
       },
       predictiveBackGestureEnabled: false,
-      permissions: [
-        'android.permission.RECORD_AUDIO',
-        'android.permission.MODIFY_AUDIO_SETTINGS',
-        'com.google.android.gms.permission.AD_ID',
-      ],
+      permissions: ['com.google.android.gms.permission.AD_ID'],
+      blockedPermissions: ['android.permission.RECORD_AUDIO'],
     },
     web: {
       bundler: 'metro',
@@ -99,6 +96,10 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       [
         'expo-build-properties',
         {
+          android: {
+            compileSdkVersion: 35,
+            targetSdkVersion: 35,
+          },
           ios: {
             useFrameworks: 'static',
           },
