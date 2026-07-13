@@ -2,6 +2,8 @@
 
 EAS Build の無料枠（iOS 月 15 回）を使い切った場合でも、**GitHub Actions の macOS ランナーで IPA を生成**し、**アップロードだけ `eas submit` に任せる**ことで、Expo 有料プランなしで App Store 提出用ビルドを作れます。
 
+Android 向けリリース手順は [android-release.md](./android-release.md) を参照してください。
+
 参考: [iOSアプリ（個人）開発を止めるな！Mac無し・$0・EAS Build枠切れでもリリースできる完全ガイド](https://qiita.com/banquet_kuma/items/9250dcdce8e85a98c50a)
 
 ## このプロジェクトでの実現性
@@ -203,7 +205,7 @@ npx eas submit --platform ios --path ./build-output/ColorOrder.ipa
 ## 6. App Store Connect で審査提出
 
 1. 新バージョン（例: 1.0.1）を作成
-2. **マーケティング URL** を入力（AdMob app-ads.txt 用）
+2. **マーケティング URL** に `https://ippeinagamine221024.github.io/` を入力（[app-ads.txt](https://ippeinagamine221024.github.io/app-ads.txt) のクロール用）
 3. 今回アップロードしたビルドを選択
 4. 「このバージョンの新機能」を記入
 5. 審査に提出

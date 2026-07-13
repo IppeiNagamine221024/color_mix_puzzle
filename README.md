@@ -30,5 +30,6 @@ npm run generate-stages   # stages.json を再生成（100ステージ）
 
 ## リリース・ストア審査
 
-ストア掲載文・審査メモ・年齢レーティング案は [docs/release/](./docs/release/README.md)。  
-プライバシーポリシー／利用規約／サポートの公開 HTML は [`site/`](./site/)（GitHub Pages）。
+- iOS 本番ビルド（EAS Build 不使用）: [docs/ios-build-without-eas.md](./docs/ios-build-without-eas.md)
+- Android リリース準備・Play 配信: [docs/android-release.md](./docs/android-release.md)
+- プライバシーポリシー／利用規約／サポートの公開 HTML: [`site/`](./site/)（GitHub Pages）
