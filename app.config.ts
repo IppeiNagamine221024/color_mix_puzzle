@@ -49,11 +49,16 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     owner: 'wippeipy221024',
     ios: {
       bundleIdentifier: APP_BUNDLE_ID,
-      buildNumber: '17',
+      buildNumber: '18',
       supportsTablet: true,
       infoPlist: {
         // 標準的な HTTPS 等のみ → ASC の輸出コンプライアンス手動回答を省略
         ITSAppUsesNonExemptEncryption: false,
+        // react-native-share が Photo Library API を参照するため必須（ITMS-90683）
+        NSPhotoLibraryUsageDescription:
+          'クリア画面を SNS にシェアするときに、写真ライブラリへのアクセスが必要になる場合があります。',
+        NSPhotoLibraryAddUsageDescription:
+          'クリア画面のスクリーンショットを写真ライブラリに保存するときに使用します。',
       },
     },
     android: {

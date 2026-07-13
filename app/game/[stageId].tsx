@@ -428,13 +428,17 @@ function ActionButton({
     <Pressable
       style={[
         styles.actionBtn,
-        woodButton(colors.bg, active),
+        woodButton(active ? colors.light : colors.bg, false),
+        active && styles.actionActive,
         disabled && styles.actionDisabled,
       ]}
       onPress={onPress}
       disabled={disabled}
+      accessibilityState={{ selected: active }}
     >
-      <Text style={styles.actionText}>{label}</Text>
+      <Text style={[styles.actionText, active && styles.actionTextActive]}>
+        {label}
+      </Text>
     </Pressable>
   );
 }
@@ -565,6 +569,23 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     alignItems: 'center',
   },
+  actionActive: {
+    borderWidth: 3,
+    borderColor: '#fff',
+    transform: [{ scale: 1.04 }],
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.35,
+    shadowRadius: 8,
+    elevation: 8,
+  },
   actionDisabled: { opacity: 0.4 },
   actionText: { color: '#fff', fontWeight: '700', fontSize: 15 },
+  actionTextActive: {
+    fontSize: 16,
+    letterSpacing: 0.5,
+    textShadowColor: 'rgba(0,0,0,0.35)',
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 2,
+  },
 });

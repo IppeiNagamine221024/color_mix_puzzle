@@ -150,7 +150,7 @@
         {
           "dx": 0,
           "dy": 1,
-          "color": "yellow"
+          "color": "green"
         }
       ]
     },
@@ -197,7 +197,7 @@
         {
           "dx": 0,
           "dy": 1,
-          "color": "magenta"
+          "color": "red"
         }
       ]
     },

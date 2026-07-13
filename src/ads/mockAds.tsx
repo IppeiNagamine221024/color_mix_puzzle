@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Theme } from '@/constants/Theme';
 import { woodButton, woodText } from '@/constants/wood';
 
@@ -17,10 +17,17 @@ type MockRewardButtonProps = {
 };
 
 export function MockRewardButton({ onReward, disabled, label }: MockRewardButtonProps) {
+  const onPress = () => {
+    Alert.alert('スタミナ回復', '広告を見てスタミナを回復しますか？', [
+      { text: 'キャンセル', style: 'cancel' },
+      { text: '見る', onPress: onReward },
+    ]);
+  };
+
   return (
     <Pressable
       style={[styles.rewardBtn, disabled && styles.rewardBtnDisabled]}
-      onPress={onReward}
+      onPress={onPress}
       disabled={disabled}
     >
       <Text style={styles.rewardText}>{label ?? '▶ 広告でスタミナ回復'}</Text>

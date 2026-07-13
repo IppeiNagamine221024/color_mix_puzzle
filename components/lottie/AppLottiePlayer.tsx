@@ -47,6 +47,15 @@ export function AppLottiePlayer() {
 
   onCompleteRef.current = request?.onComplete ?? null;
 
+  const resetPlayerProgress = useCallback(() => {
+    try {
+      lottieRef.current?.reset();
+      lottieRef.current?.pause();
+    } catch {
+      // native view が既に解放されている場合は無視
+    }
+  }, []);
+
   useEffect(() => {
     if (!request || request.kind !== 'clear') {
       setClearUri(null);
@@ -77,7 +86,8 @@ export function AppLottiePlayer() {
     const currentKind = request?.kind;
 
     if (currentKind === 'enter' || currentKind === 'exit') {
-      // 遷移を先に実行し、単色カバーは先画面の描画まで残す
+      // スキップ時に途中フレームが残ると次回 enter がずれて再生されるため先にリセット
+      resetPlayerProgress();
       hide();
       cb?.();
       return;
@@ -91,7 +101,7 @@ export function AppLottiePlayer() {
 
     hide();
     setTimeout(() => cb?.(), LOTTIE_CONFIG.postDelayMs);
-  }, [hide, request?.kind]);
+  }, [hide, request?.kind, resetPlayerProgress]);
 
   const markAnimationDone = useCallback(() => {
     if (animationDoneRef.current) return;
@@ -108,13 +118,14 @@ export function AppLottiePlayer() {
       animationDoneRef.current = false;
       setAnimationDone(false);
       setCompositionLoaded(false);
+      resetPlayerProgress();
       return;
     }
     finishedRef.current = false;
     animationDoneRef.current = false;
     setAnimationDone(false);
     setCompositionLoaded(false);
-  }, [request, instanceId]);
+  }, [request, instanceId, resetPlayerProgress]);
 
   useEffect(() => {
     if (!request || request.kind === 'exit' || !compositionLoaded) return;
@@ -124,22 +135,27 @@ export function AppLottiePlayer() {
     return () => clearTimeout(id);
   }, [request, instanceId, compositionLoaded, markAnimationDone]);
 
+  // enter / exit ともに明示再生（autoPlay だとスキップ後の途中再開が起きやすい）
   useEffect(() => {
-    if (!request || request.kind !== 'exit') return;
+    if (!request || (request.kind !== 'enter' && request.kind !== 'exit')) return;
 
-    const durationMs = getLottieDurationMs('exit');
+    const durationMs = getLottieDurationMs(request.kind);
     const playId = setTimeout(() => {
       lottieRef.current?.reset();
-      lottieRef.current?.play(ENTER_EXIT_TOTAL_FRAMES, 0);
+      if (request.kind === 'exit') {
+        lottieRef.current?.play(ENTER_EXIT_TOTAL_FRAMES, 0);
+      } else {
+        lottieRef.current?.play(0, ENTER_EXIT_TOTAL_FRAMES);
+      }
     }, 16);
     const doneId = setTimeout(markAnimationDone, durationMs + 250);
 
     return () => {
       clearTimeout(playId);
       clearTimeout(doneId);
-      lottieRef.current?.pause();
+      resetPlayerProgress();
     };
-  }, [request, instanceId, markAnimationDone]);
+  }, [request, instanceId, markAnimationDone, resetPlayerProgress]);
 
   const onAnimationLoaded = useCallback(() => {
     setCompositionLoaded(true);
@@ -161,12 +177,6 @@ export function AppLottiePlayer() {
     invokeComplete();
   }, [animationDone, invokeComplete, tapAfterAnimation]);
 
-  useEffect(() => {
-    if (!request) {
-      lottieRef.current?.pause();
-    }
-  }, [request]);
-
   if (!request && !coverActive) return null;
 
   const overlayBackground =
@@ -181,7 +191,7 @@ export function AppLottiePlayer() {
             ref={lottieRef}
             style={styles.lottie}
             resizeMode="cover"
-            autoPlay={kind === 'enter'}
+            autoPlay={false}
             loop={false}
             onAnimationLoaded={onAnimationLoaded}
             onAnimationFinish={onAnimationFinish}

@@ -3,7 +3,7 @@ import { woodButton } from '@/constants/wood';
 import { adRequestOptions } from '@/src/ads/adRequestOptions';
 import { bannerAdUnitId } from '@/src/ads/adUnits';
 import { showRewardedAd } from '@/src/ads/showRewardedAd';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
 import { BannerAd, BannerAdSize } from 'react-native-google-mobile-ads';
 
 export function AdMobBannerAd() {
@@ -25,9 +25,19 @@ type AdMobRewardButtonProps = {
 };
 
 export function AdMobRewardButton({ onReward, disabled, label }: AdMobRewardButtonProps) {
-  const onPress = async () => {
-    const completed = await showRewardedAd();
-    if (completed) onReward();
+  const onPress = () => {
+    Alert.alert('スタミナ回復', '広告を見てスタミナを回復しますか？', [
+      { text: 'キャンセル', style: 'cancel' },
+      {
+        text: '見る',
+        onPress: () => {
+          void (async () => {
+            const completed = await showRewardedAd();
+            if (completed) onReward();
+          })();
+        },
+      },
+    ]);
   };
 
   return (
