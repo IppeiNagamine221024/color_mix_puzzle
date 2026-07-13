@@ -1,3 +1,4 @@
+import { HowToPlayIntroModal } from '@/components/how-to-play';
 import { STAMINA_CONSUME_MS, StaminaBar } from '@/components/StaminaBar';
 import { Theme } from '@/constants/Theme';
 import { woodButton, woodPanel, woodText, woodTile, woodTitle } from '@/constants/wood';
@@ -13,6 +14,7 @@ import {
   useAppStore,
 } from '@/src/stores/appStore';
 import { useLottiePlayerStore } from '@/src/stores/lottiePlayerStore';
+import { shouldShowHowToPlayIntro } from '@/src/storage/howToPlayIntro';
 import { useFocusEffect, useRouter, type Href } from 'expo-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import {
@@ -40,6 +42,7 @@ export default function MainScreen() {
   const coverActive = useLottiePlayerStore((s) => s.coverActive);
   const [enteringStageId, setEnteringStageId] = useState<number | null>(null);
   const [consumingHeartIndex, setConsumingHeartIndex] = useState<number | null>(null);
+  const [howToPlayIntroVisible, setHowToPlayIntroVisible] = useState(false);
   const enteringRef = useRef(false);
   const pendingEntryRef = useRef<{ href: string } | null>(null);
   const entryPreparedRef = useRef<Promise<boolean> | null>(null);
@@ -47,6 +50,13 @@ export default function MainScreen() {
   useEffect(() => {
     hydrate();
   }, [hydrate]);
+
+  useEffect(() => {
+    if (!ready) return;
+    void shouldShowHowToPlayIntro(save).then((show) => {
+      if (show) setHowToPlayIntroVisible(true);
+    });
+  }, [ready, save]);
 
   const resetEntryTransition = useCallback(() => {
     enteringRef.current = false;
@@ -171,10 +181,14 @@ export default function MainScreen() {
   const weeklyActive = isWeeklyPassActive(save);
   const passMode = infinitePass ? 'infinite' : weeklyActive ? 'weekly' : 'none';
   const isEntering =
-    enteringStageId != null || lottieRequest != null || coverActive;
+    enteringStageId != null || lottieRequest != null || coverActive || howToPlayIntroVisible;
 
   return (
     <View style={styles.root}>
+      <HowToPlayIntroModal
+        visible={howToPlayIntroVisible}
+        onClose={() => setHowToPlayIntroVisible(false)}
+      />
       <SafeAreaView style={styles.safe} edges={['top', 'left', 'right']}>
       <View style={styles.hero}>
         <View style={styles.heroRow}>

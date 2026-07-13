@@ -879,4 +879,14 @@ export const ads = isDevClientOrProduction()
 | AdMob リワード | モックボタンでスタミナ回復 |
 | MMKV       | AsyncStorage  |
 
+---
+
+## 19. アップデート要件（v1.0 公開後）
+
+初回公開後のアップデート要件は別ドキュメントにまとめる。
+
+| バージョン | ドキュメント | 主な内容 |
+|-----------|-------------|---------|
+| v1.1 | [update-v1.1.md](./requirements/update-v1.1.md) | シェア機能（X / Instagram / LINE）、遊び方ページの画像化・初回起動ポップアップ |
+
 

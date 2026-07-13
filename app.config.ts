@@ -54,6 +54,14 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       infoPlist: {
         // 標準的な HTTPS 等のみ → ASC の輸出コンプライアンス手動回答を省略
         ITSAppUsesNonExemptEncryption: false,
+        LSApplicationQueriesSchemes: [
+          'twitter',
+          'twitterauth',
+          'instagram',
+          'instagram-stories',
+          'line',
+          'lineauth2',
+        ],
       },
     },
     android: {
@@ -105,6 +113,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
         },
       ],
       'expo-iap',
+      'react-native-share',
     ],
     experiments: {
       typedRoutes: true,

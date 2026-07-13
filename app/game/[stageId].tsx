@@ -1,3 +1,4 @@
+import { ClearShareOverlay } from '@/components/share';
 import { BoardView } from '@/components/BoardView';
 import { ColorRecipeHintOverlay } from '@/components/ColorRecipeHintOverlay';
 import { GameOverOverlay } from '@/components/GameOverOverlay';
@@ -34,6 +35,7 @@ import {
     View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import ViewShot from 'react-native-view-shot';
 
 type UiMode = 'idle' | 'A' | 'C';
 
@@ -54,7 +56,10 @@ export default function GameScreen() {
   const lottieRequest = useLottiePlayerStore((s) => s.request);
   const coverActive = useLottiePlayerStore((s) => s.coverActive);
   const leavingRef = useRef(false);
+  const captureRef = useRef<ViewShot>(null);
   const pendingAfterExitRef = useRef<(() => void | Promise<void>) | null>(null);
+  const [shareVisible, setShareVisible] = useState(false);
+  const [shareImageUri, setShareImageUri] = useState<string | null>(null);
   const [uiMode, setUiMode] = useState<UiMode>('idle');
   const [selection, setSelection] = useState<{ x: number; y: number }[]>([]);
   const [patternGlow, setPatternGlow] = useState(false);
@@ -65,6 +70,7 @@ export default function GameScreen() {
   const pendingAfterAnim = useRef<(() => void | Promise<void>) | null>(null);
 
   const clearOverlayActive = isClearLottieActive(lottieRequest);
+  const shareOverlayActive = shareVisible;
   const exitOverlayActive =
     isExitLottieActive(lottieRequest) || (coverActive && leavingRef.current);
   const isContinue = continueParam === '1';
@@ -153,6 +159,25 @@ export default function GameScreen() {
     });
   }, [router, showExit]);
 
+  const openShareAfterClear = useCallback(async () => {
+    await new Promise<void>((resolve) => {
+      requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
+    });
+    try {
+      const uri = await captureRef.current?.capture?.();
+      setShareImageUri(uri ?? null);
+    } catch {
+      setShareImageUri(null);
+    }
+    setShareVisible(true);
+  }, []);
+
+  const onShareDismiss = useCallback(() => {
+    setShareVisible(false);
+    setShareImageUri(null);
+    beginLeaveStage();
+  }, [beginLeaveStage]);
+
   const handleResult = useCallback(
     async (next: GameSession, animation?: BoardAnimation) => {
       const finish = async () => {
@@ -162,7 +187,7 @@ export default function GameScreen() {
           showClear(() => {
             void (async () => {
               await clearStage(stageId);
-              beginLeaveStage();
+              await openShareAfterClear();
             })();
           });
           return;
@@ -188,7 +213,7 @@ export default function GameScreen() {
         await finish();
       }
     },
-    [beginLeaveStage, clearStage, gameOver, persist, showClear, stageId],
+    [beginLeaveStage, clearStage, gameOver, openShareAfterClear, persist, showClear, stageId],
   );
 
   const onAnimationComplete = useCallback(() => {
@@ -256,7 +281,7 @@ export default function GameScreen() {
   };
 
   const onBack = () => {
-    if (leavingRef.current || exitOverlayActive || clearOverlayActive || animating) return;
+    if (leavingRef.current || exitOverlayActive || clearOverlayActive || shareOverlayActive || animating) return;
     const shouldPersist = session?.status === 'playing';
     beginLeaveStage(async () => {
       if (shouldPersist && session) await persist(session);
@@ -282,13 +307,14 @@ export default function GameScreen() {
     : [];
 
   return (
+    <ViewShot ref={captureRef} style={styles.captureRoot} options={{ format: 'png', quality: 1 }}>
     <View style={styles.root}>
       <SafeAreaView style={styles.safe}>
       <View style={styles.header}>
         <Pressable
           style={styles.backBtn}
           onPress={onBack}
-          disabled={exitOverlayActive || clearOverlayActive || animating}
+          disabled={exitOverlayActive || clearOverlayActive || shareOverlayActive || animating}
         >
           <Text style={styles.back}>←</Text>
         </Pressable>
@@ -331,7 +357,7 @@ export default function GameScreen() {
 
       <SwipeZone
         style={styles.boardArea}
-        enabled={playing && uiMode === 'idle' && !animating && !exitOverlayActive && !clearOverlayActive}
+        enabled={playing && uiMode === 'idle' && !animating && !exitOverlayActive && !clearOverlayActive && !shareOverlayActive}
         onSwipe={onSwipe}
       >
         <BoardView
@@ -372,7 +398,15 @@ export default function GameScreen() {
         patternCells={stage.pattern.cells}
         onClose={() => setRecipeHintVisible(false)}
       />
+
+      <ClearShareOverlay
+        visible={shareVisible}
+        stageId={stageId}
+        imageUri={shareImageUri}
+        onDismiss={onShareDismiss}
+      />
     </View>
+    </ViewShot>
   );
 }
 
@@ -406,6 +440,7 @@ function ActionButton({
 }
 
 const styles = StyleSheet.create({
+  captureRoot: { flex: 1 },
   root: { flex: 1, backgroundColor: Theme.bg },
   safe: { flex: 1, backgroundColor: Theme.bg },
   loading: { flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: Theme.bg },
