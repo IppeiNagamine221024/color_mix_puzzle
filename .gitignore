@@ -46,3 +46,5 @@ credentials/
 credentials.json
 
 /docs/release
+
+build-output/

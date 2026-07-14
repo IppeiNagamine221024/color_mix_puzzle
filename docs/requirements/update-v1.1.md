@@ -103,15 +103,22 @@ https://apps.apple.com/us/app/color-order/id6788045840
 - シェアシートは **「閉じる」** で閉じ、クリア画面に戻る（退場はしない）
 - シェアせずに画面タップで従来どおり退場 → メイン画面へ進める
 - 既存の wood テーマ（`constants/Theme.ts` / `constants/wood.ts`）に合わせた見た目とする
+
 ### 2.6 技術方針 — **確定**
 
 | レイヤー | ライブラリ | 状態 |
 |---------|-----------|------|
 | スクリーンショット | **`react-native-view-shot`** | 採用・実装済み |
 | SNS 共有 | **`react-native-share`** | 採用・実装済み |
-| フォールバック | `Share.open` / `expo-linking`（LINE テキスト） | 採用・実装済み |
+| フォールバック | `Share.open` / `expo-linking` | 採用・実装済み |
 
-`npx expo install react-native-view-shot react-native-share` + Dev Client の再ビルドが必要。
+| ボタン | 第一手段 | フォールバック |
+|--------|---------|---------------|
+| **X** | OS 共有シート（画像 + テキスト）。`shareSingle(Twitter)` は iOS で Social.framework 廃止により無反応のため使わない | `twitter://post`（テキストのみ）→ Web intent |
+| **Instagram** | `shareSingle` + **`data:image/png;base64,...`**（file URI だとカメラロール最新に差し替わる） | OS 共有シート |
+| **LINE** | OS 共有シート（画像 + テキスト） | — |
+
+> **X Developer API は不要。** 画像付き投稿をアプリから直接 X に送る公式ルートは個人向けにほぼなく、共有シート経由が現実的。
 
 ### 2.7 受け入れ条件
 
@@ -333,6 +340,7 @@ components/how-to-play/
 | 2026-07 | 実装完了（遊び方画像化・初回ポップアップ・クリアシェア） |
 | 2026-07 | 軽微修正・UX 追加（exit スキップ、広告確認、行動ボタン選択状態） |
 | 2026-07 | シェアを任意ボタン化・操作不能修正、行動ボタン選択時のレイアウトずれ修正 |
+| 2026-07 | Instagram（base64）/ X（共有シート）のシェア不具合修正 |
 
 ---
 
