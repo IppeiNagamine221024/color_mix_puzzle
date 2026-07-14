@@ -1,4 +1,6 @@
+import { LOTTIE_CONFIG } from '@/src/lottie/catalog';
 import type { LottieTransitionId } from '@/src/lottie/types';
+import { Platform } from 'react-native';
 import { create } from 'zustand';
 
 type LottiePlayerRequest = {
@@ -38,6 +40,23 @@ export const useLottiePlayerStore = create<LottiePlayerState>((set) => ({
   hide: () => set({ request: null }),
   dismissCover: () => set({ request: null, coverActive: false }),
 }));
+
+/**
+ * 先画面の描画後にホールドカバーを外す。
+ * Android は rAF 2 回だけでは足りず一瞬下の画面が透けることがあるため、
+ * enterCoverHoldMs だけ更に待つ（iOS は従来どおり）。
+ */
+export function scheduleDismissCoverHold(dismissCover: () => void): void {
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      if (Platform.OS === 'android') {
+        setTimeout(dismissCover, LOTTIE_CONFIG.enterCoverHoldMs);
+      } else {
+        dismissCover();
+      }
+    });
+  });
+}
 
 export function isClearLottieActive(request: LottiePlayerRequest | null): boolean {
   return request?.kind === 'clear';

@@ -21,7 +21,12 @@ import { findPatternMatchPositions } from '@/src/game/pattern';
 import { getStageById, isTutorialStage } from '@/src/game/stages';
 import { useAppStore } from '@/src/stores/appStore';
 import { useClearShareStore } from '@/src/stores/clearShareStore';
-import { isClearLottieActive, isExitLottieActive, useLottiePlayerStore } from '@/src/stores/lottiePlayerStore';
+import {
+  isClearLottieActive,
+  isExitLottieActive,
+  scheduleDismissCoverHold,
+  useLottiePlayerStore,
+} from '@/src/stores/lottiePlayerStore';
 import type { BoardAnimation } from '@/src/types/animation';
 import type { Direction } from '@/src/types/board';
 import { COLOR_HEX, COLOR_LABELS } from '@/src/types/colors';
@@ -82,11 +87,7 @@ export default function GameScreen() {
     useCallback(() => {
       const { coverActive, request } = useLottiePlayerStore.getState();
       if (!coverActive || request != null) return;
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          dismissCover();
-        });
-      });
+      scheduleDismissCoverHold(dismissCover);
     }, [dismissCover]),
   );
 

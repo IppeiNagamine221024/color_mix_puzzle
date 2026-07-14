@@ -16,7 +16,7 @@ import {
 import { useAppStore } from '@/src/stores/appStore';
 import { useFocusEffect } from 'expo-router';
 import { useCallback } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 export default function PassesScreen() {
   const { save, weeklyPlayMs, tickRecovery } = useAppStore();
@@ -43,7 +43,9 @@ export default function PassesScreen() {
           </Text>
           {!productsReady && connected && (
             <Text style={styles.storeHint}>
-              商品情報を取得できません。App Store Connect で商品 ID が「送信準備完了」か確認してください。
+              {Platform.OS === 'android'
+                ? '商品情報を取得できません。Google Play Console でアプリ内商品が有効か、ライセンステスター設定を確認してください。'
+                : '商品情報を取得できません。App Store Connect で商品 ID が「送信準備完了」か確認してください。'}
             </Text>
           )}
         </View>

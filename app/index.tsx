@@ -13,7 +13,7 @@ import {
   canStartNewStage,
   useAppStore,
 } from '@/src/stores/appStore';
-import { useLottiePlayerStore } from '@/src/stores/lottiePlayerStore';
+import { scheduleDismissCoverHold, useLottiePlayerStore } from '@/src/stores/lottiePlayerStore';
 import { shouldShowHowToPlayIntro } from '@/src/storage/howToPlayIntro';
 import { useFocusEffect, useRouter, type Href } from 'expo-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -74,11 +74,7 @@ export default function MainScreen() {
       // 退場ホールドカバーのみ外す
       const { coverActive, request } = useLottiePlayerStore.getState();
       if (coverActive && request == null) {
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            dismissCover();
-          });
-        });
+        scheduleDismissCoverHold(dismissCover);
       }
 
       resetEntryTransition();

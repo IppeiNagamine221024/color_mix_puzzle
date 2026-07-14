@@ -1,7 +1,7 @@
 import { Theme } from '@/constants/Theme';
 import { woodButton, woodText, woodTitle } from '@/constants/wood';
 import { playSe } from '@/src/audio/playSe';
-import { shareClearScreenshot, type ShareTarget } from '@/src/share/shareClearResult';
+import { shareClearScreenshot } from '@/src/share/shareClearResult';
 import { useCallback, useState } from 'react';
 import {
   ActivityIndicator,
@@ -19,28 +19,19 @@ type Props = {
   onClose: () => void;
 };
 
-const SHARE_TARGETS: { id: ShareTarget; label: string }[] = [
-  { id: 'x', label: 'X' },
-  { id: 'instagram', label: 'Instagram' },
-  { id: 'line', label: 'LINE' },
-];
-
 export function ClearShareOverlay({ visible, stageId, imageUri, onClose }: Props) {
-  const [sharing, setSharing] = useState<ShareTarget | null>(null);
+  const [sharing, setSharing] = useState(false);
 
-  const onShare = useCallback(
-    async (target: ShareTarget) => {
-      if (sharing) return;
-      playSe('uiTap');
-      setSharing(target);
-      try {
-        await shareClearScreenshot(target, stageId, imageUri);
-      } finally {
-        setSharing(null);
-      }
-    },
-    [imageUri, sharing, stageId],
-  );
+  const onShare = useCallback(async () => {
+    if (sharing) return;
+    playSe('uiTap');
+    setSharing(true);
+    try {
+      await shareClearScreenshot(stageId, imageUri);
+    } finally {
+      setSharing(false);
+    }
+  }, [imageUri, sharing, stageId]);
 
   const handleClose = useCallback(() => {
     if (sharing) return;
@@ -54,11 +45,11 @@ export function ClearShareOverlay({ visible, stageId, imageUri, onClose }: Props
     <View style={styles.overlay} pointerEvents="box-none">
       <View style={styles.card}>
         <View style={styles.header}>
-          <Text style={styles.title}>SNSでシェア</Text>
+          <Text style={styles.title}>シェア</Text>
           <Pressable
             style={styles.closeBtn}
             onPress={handleClose}
-            disabled={sharing != null}
+            disabled={sharing}
             accessibilityRole="button"
             accessibilityLabel="閉じる"
             hitSlop={8}
@@ -78,29 +69,24 @@ export function ClearShareOverlay({ visible, stageId, imageUri, onClose }: Props
           />
         ) : null}
 
-        <View style={styles.buttons}>
-          {SHARE_TARGETS.map((target) => (
-            <Pressable
-              key={target.id}
-              style={[styles.shareBtn, sharing === target.id && styles.shareBtnBusy]}
-              onPress={() => void onShare(target.id)}
-              disabled={sharing != null}
-              accessibilityRole="button"
-              accessibilityLabel={`${target.label}でシェア`}
-            >
-              {sharing === target.id ? (
-                <ActivityIndicator color={Theme.accent} />
-              ) : (
-                <Text style={styles.shareLabel}>{target.label}</Text>
-              )}
-            </Pressable>
-          ))}
-        </View>
+        <Pressable
+          style={[styles.shareBtn, sharing && styles.shareBtnBusy]}
+          onPress={() => void onShare()}
+          disabled={sharing}
+          accessibilityRole="button"
+          accessibilityLabel="シェアする"
+        >
+          {sharing ? (
+            <ActivityIndicator color={Theme.accent} />
+          ) : (
+            <Text style={styles.shareLabel}>シェアする</Text>
+          )}
+        </Pressable>
 
         <Pressable
           style={styles.closeLink}
           onPress={handleClose}
-          disabled={sharing != null}
+          disabled={sharing}
           accessibilityRole="button"
           accessibilityLabel="閉じる"
         >
@@ -172,27 +158,20 @@ const styles = StyleSheet.create({
     borderColor: Theme.border,
     backgroundColor: Theme.bg,
   },
-  buttons: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    gap: 8,
-  },
   shareBtn: {
-    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 12,
-    gap: 4,
-    ...woodButton(Theme.surfaceRaised),
+    paddingVertical: 14,
+    ...woodButton(Theme.accentSoft),
   },
   shareBtnBusy: {
     opacity: 0.7,
   },
   shareLabel: {
     ...woodText,
-    fontSize: 13,
+    fontSize: 16,
     fontWeight: '700',
-    color: Theme.text,
+    color: Theme.accent,
   },
   closeLink: {
     alignItems: 'center',
