@@ -888,5 +888,6 @@ export const ads = isDevClientOrProduction()
 | バージョン | ドキュメント | 主な内容 |
 |-----------|-------------|---------|
 | v1.1 | [update-v1.1.md](./requirements/update-v1.1.md) | シェア機能（X / Instagram / LINE）、遊び方ページの画像化・初回起動ポップアップ |
+| （将来） | [update-v1.1.md §10](./requirements/update-v1.1.md#10-将来計画--アプリ内レビュー依頼v11-対象外) | アプリ内レビュー依頼（ステージ30初回クリア × 3連続クリア × 未依頼／新バージョン。ホーム復帰時） |
 
 

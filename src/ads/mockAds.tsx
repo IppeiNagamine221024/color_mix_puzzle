@@ -11,7 +11,7 @@ export function MockBannerAd() {
 }
 
 type MockRewardButtonProps = {
-  onReward: () => void;
+  onReward: () => void | boolean | Promise<void | boolean>;
   disabled?: boolean;
   label?: string;
 };
@@ -20,7 +20,16 @@ export function MockRewardButton({ onReward, disabled, label }: MockRewardButton
   const onPress = () => {
     Alert.alert('スタミナ回復', '広告を見てスタミナを回復しますか？', [
       { text: 'キャンセル', style: 'cancel' },
-      { text: '見る', onPress: onReward },
+      {
+        text: '見る',
+        onPress: () => {
+          void (async () => {
+            const rewarded = await Promise.resolve(onReward());
+            if (rewarded === false) return;
+            Alert.alert('スタミナ回復', 'スタミナが1つ回復しました');
+          })();
+        },
+      },
     ]);
   };
 

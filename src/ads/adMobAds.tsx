@@ -19,7 +19,7 @@ export function AdMobBannerAd() {
 }
 
 type AdMobRewardButtonProps = {
-  onReward: () => void;
+  onReward: () => void | boolean | Promise<void | boolean>;
   disabled?: boolean;
   label?: string;
 };
@@ -33,7 +33,10 @@ export function AdMobRewardButton({ onReward, disabled, label }: AdMobRewardButt
         onPress: () => {
           void (async () => {
             const completed = await showRewardedAd();
-            if (completed) onReward();
+            if (!completed) return;
+            const rewarded = await Promise.resolve(onReward());
+            if (rewarded === false) return;
+            Alert.alert('スタミナ回復', 'スタミナが1つ回復しました');
           })();
         },
       },

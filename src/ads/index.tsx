@@ -4,7 +4,7 @@ import { MockBannerAd, MockRewardButton } from './mockAds';
 export { initAds } from './initAds';
 
 type RewardButtonProps = {
-  onReward: () => void;
+  onReward: () => void | boolean | Promise<void | boolean>;
   disabled?: boolean;
   label?: string;
 };

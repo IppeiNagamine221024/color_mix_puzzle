@@ -17,6 +17,8 @@ class AudioService {
   private bgmPlayer: AudioPlayer | null = null;
   private currentBgm: BgmId | null = null;
   private focusedBgm: BgmId | null = null;
+  /** 広告表示のために BGM を一時停止したか（終了後に再開する） */
+  private pausedForAd = false;
   private bgmRequestId = 0;
   private readonly sePlayers = new Map<SeId, AudioPlayer>();
   private appStateSubscription: { remove: () => void } | null = null;
@@ -27,6 +29,7 @@ class AudioService {
 
   private onAppStateChange = (nextState: AppStateStatus): void => {
     if (nextState !== 'active') return;
+    if (this.pausedForAd) return;
     void setIsAudioActiveAsync(true).then(() => {
       if (this.focusedBgm) {
         void this.playBgm(this.focusedBgm, { force: true });
@@ -68,7 +71,7 @@ class AudioService {
     for (const player of this.sePlayers.values()) {
       player.volume = seVolume;
     }
-    if (this.focusedBgm && bgmVolume > 0 && !this.bgmPlayer?.playing) {
+    if (this.focusedBgm && bgmVolume > 0 && !this.bgmPlayer?.playing && !this.pausedForAd) {
       void this.playBgm(this.focusedBgm, { force: true });
     }
   }
@@ -157,6 +160,37 @@ class AudioService {
     this.bgmPlayer?.pause();
     this.currentBgm = null;
     this.focusedBgm = null;
+    this.pausedForAd = false;
+  }
+
+  /** リワード広告など全画面広告の表示中に BGM を一時停止する */
+  pauseForAd(): void {
+    if (!this.bgmPlayer?.playing) {
+      this.pausedForAd = false;
+      return;
+    }
+    this.bgmPlayer.pause();
+    this.pausedForAd = true;
+  }
+
+  /** 広告終了後にフォーカス中の BGM を続きから再開する */
+  resumeAfterAd(): void {
+    if (!this.pausedForAd) return;
+    this.pausedForAd = false;
+
+    const id = this.focusedBgm;
+    if (!id || !this.bgmPlayer || this.currentBgm !== id) {
+      if (id) void this.playBgm(id, { force: true });
+      return;
+    }
+
+    const { bgmVolume } = getAudioVolumes();
+    if (bgmVolume <= 0) return;
+
+    this.bgmPlayer.volume = bgmVolume;
+    if (!this.bgmPlayer.playing) {
+      this.bgmPlayer.play();
+    }
   }
 
   async playSe(id: SeId): Promise<void> {
@@ -187,6 +221,7 @@ class AudioService {
     this.bgmPlayer = null;
     this.currentBgm = null;
     this.focusedBgm = null;
+    this.pausedForAd = false;
     this.initialized = false;
     this.initPromise = null;
     this.bgmRequestId = 0;
